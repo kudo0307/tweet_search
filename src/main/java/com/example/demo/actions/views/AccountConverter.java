@@ -35,6 +35,13 @@ public class AccountConverter {
             return null;
         }
 
+        LocalDateTime deletedAtDate = a.getDeletedAt();
+        String deletedAt = "";
+        if(deletedAtDate != null) {
+            deletedAt = deletedAtDate.toString();
+        }
+
+
         return new AccountView(
                 a.getId(),
                 a.getName(),
@@ -43,7 +50,7 @@ public class AccountConverter {
                 a.getAdminFlag(),
                 a.getCreatedAt().toString(),
                 a.getUpdatedAt().toString(),
-                a.getDeletedAt().toString()
+                deletedAt
                 );
     }
 
