@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -18,17 +16,11 @@ import lombok.NoArgsConstructor;
 // アカウントデータのDTOモデル
 
 @Table(name="account")
-@NamedQueries({
-    @NamedQuery(
-            name = "account.getAll",
-            query = "SELECT a FROM Account AS a WHERE a.acc_deleted_at IS NOT NULL"
-            )
-})
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
 
     // id
@@ -46,7 +38,7 @@ public class Account {
     private String email;
 
     // パスワード
-    @Column(name="acc_email", length=255, nullable=false)
+    @Column(name="acc_pass", length=255, nullable=false)
     private String password;
 
     // 管理者権限
