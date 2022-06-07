@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,8 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-// アカウント新規作成テーブルのDTOモデル
+//アカウント新規作成テーブルのDTOモデル
 
 @Table(name="account_new_create")
 @Data
@@ -39,6 +40,7 @@ public class AccountNewCreate {
     private String email;
 
     // ワンタイムパスワードテーブルid
-    @Column(name="anc_otp_id",nullable=false)
-    private Integer otpId;
+    @OneToOne
+    @JoinColumn(name="anc_otp_id",nullable=false)
+    private OnetimePassword otp;
 }
