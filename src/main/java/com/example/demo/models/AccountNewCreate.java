@@ -16,9 +16,7 @@ import com.example.demo.constants.MessageConst;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 //アカウント新規作成テーブルのDTOモデル
-
 @Table(name="account_new_create")
 @Data
 @Entity
@@ -39,7 +37,7 @@ public class AccountNewCreate {
     @Column(name="anc_email", length=255, nullable=false)
     private String email;
 
-    // ワンタイムパスワードテーブルid
+    // ワンタイムパスワードテーブル
     @OneToOne
     @JoinColumn(name="anc_otp_id",nullable=false)
     private OnetimePassword otp;
