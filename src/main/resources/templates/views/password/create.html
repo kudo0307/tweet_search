@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <div th:object="${formAccount}">
+        <p th:errors="*{name}"></p>
+        <p th:errors="*{password}"></p>
+        <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
+        <form action="#" th:action = "@{/passwordNewCreate/create}" method="post">
+            <span>パスワード</span>
+            <p><input type="password" th:field="*{password}"></p>
+            <span>パスワード確認</span>
+            <p><input type="password" th:field="*{passwordConfirm}"></p>
+            <input type="submit" value="登録" >
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <div th:object="${formPasswordNewCreate}">
+
+        <span th:errors="*{email}"></span>
+        <span th:block th:if="${error != null}" th:text="${error}"></span>
+        <form action="#" th:action="@{/passwordNewCreate/checkEmail}" method="post">
+            <p>アカウント登録した際のメールアドレスを入力してください</p>
+            <p><input type="text" th:field="*{email}" /></p>
+            <input type="submit" value="送信">
+        </form>
+
+        <a href="/login"  th:text="ログイン画面へ" th:href="@{/login}"></a>
+    </div>
+</body>
+</html>
