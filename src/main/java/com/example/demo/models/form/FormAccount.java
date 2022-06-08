@@ -26,6 +26,7 @@ public class FormAccount implements Serializable{
 
     // グループ作成
     public static interface CreateData {}
+    public static interface NewPasswordData {}
 
     // id
     private Integer id;
@@ -38,8 +39,8 @@ public class FormAccount implements Serializable{
     private String email;
 
     // パスワード
-    @NotBlank(groups= { CreateData.class },message=MessageConst.VALID_PASSWORD_NOT_BLANK)
-    @Length(min=JpaConst.PASSWORD_MIN,groups= { CreateData.class },message=MessageConst.VALID_PASSWORD_MIN)
+    @NotBlank(groups= { CreateData.class,NewPasswordData.class },message=MessageConst.VALID_PASSWORD_NOT_BLANK)
+    @Length(min=JpaConst.PASSWORD_MIN,groups= { CreateData.class,NewPasswordData.class },message=MessageConst.VALID_PASSWORD_MIN)
     private String password;
 
     // パスワード確認
@@ -58,7 +59,7 @@ public class FormAccount implements Serializable{
     private LocalDateTime deletedAt;
 
     // パスワードの相関チェック
-    @AssertTrue(groups= { CreateData.class },message=MessageConst.VALID_PASSWORD_CONFIRM)
+    @AssertTrue(groups= { CreateData.class,NewPasswordData.class },message=MessageConst.VALID_PASSWORD_CONFIRM)
     public boolean isPasswordValid() {
         if(password == null || password.isBlank()) {
             return true;
