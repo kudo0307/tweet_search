@@ -18,6 +18,12 @@ public interface ForwardConst {
     String ACCOUNT_NEW_CREATE_COMPLETE = "views/accounts/newcreate/complete";
     String ACCOUNT_NEW_CREATE_SEND_MAIL = "views/accounts/newcreate/send-mail";
 
+    // パスワード新規作成
+    String PASSWORD_NEW_INDEX_PAGE = "views/password/index";
+    String PASSWORD_NEW_CREATE_PAGE = "views/password/create";
+    String PASSWORD_NEW_CREATE_COMPLETE = "views/password/complete";
+    String PASSWORD_NEW_CREATE_SEND_MAIL = "views/password/send-mail";
+
 
 
 
