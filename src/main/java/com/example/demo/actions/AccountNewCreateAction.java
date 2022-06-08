@@ -26,6 +26,7 @@ import com.example.demo.models.form.FormAccountNewCreate;
 import com.example.demo.services.AccountNewCreateService;
 import com.example.demo.services.AccountService;
 import com.example.demo.services.OnetimePasswordService;
+import com.example.demo.utils.EncryptUtil;
 
 @Controller
 public class AccountNewCreateAction extends ActionBase {
@@ -79,7 +80,7 @@ public class AccountNewCreateAction extends ActionBase {
         }
 
         // ワンタイムパスワード作成
-        OnetimePassword otp = createOnetimePassword();
+        OnetimePassword otp = otpService.createOnetimePassword();
 
         // アカウント新規作成テーブルへデータ登録
         AccountNewCreate saveAnc = new AccountNewCreate();
@@ -156,13 +157,13 @@ public class AccountNewCreateAction extends ActionBase {
             // 有効期限が過ぎていたら
             return ForwardConst.ERR_TOKEN_PAGE;
         }
-        // アカウント新規作成テーブルへデータ登録
+        // アカウントテーブルへデータ登録
         Account saveAc = new Account();
 
         LocalDateTime now = LocalDateTime.now();
         saveAc.setName(fac.getName()); // アカウント名
         saveAc.setEmail(anc.getEmail()); // メールアドレス
-        saveAc.setPassword(passwordEncode(fac.getPassword())); // パスワード
+        saveAc.setPassword(EncryptUtil.passwordEncode(fac.getPassword())); // パスワード
         saveAc.setAdminFlag(JpaConst.ROLE_GENERAL); // 一般権限
         saveAc.setCreatedAt(now); // 作成日
         saveAc.setUpdatedAt(now); // 更新日

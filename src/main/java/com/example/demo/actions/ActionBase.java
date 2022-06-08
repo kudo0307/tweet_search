@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import com.example.demo.services.OnetimePasswordService;
@@ -24,7 +22,8 @@ public abstract class ActionBase {
     protected HttpServletResponse response;
     @Autowired
     protected HttpSession session;
-
+    @Autowired
+    private MailSender sender;
     @Autowired
     private OnetimePasswordService otpservice;
 
@@ -34,8 +33,6 @@ public abstract class ActionBase {
     protected String getTokenId() {
         return session.getId();
     }
-    @Autowired
-    private MailSender sender;
 
     // メールを送信する
     // @param from 送信元メールアドレス
@@ -104,15 +101,5 @@ public abstract class ActionBase {
             number = Integer.MIN_VALUE;
         }
         return number;
-    }
-
-
-    // パスワードをハッシュ化する
-    // @param password ハッシュ化するパスワード
-    // @return ハッシュ化したパスワード
-    protected String passwordEncode(String password) {
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();;
-        return passwordEncoder.encode(password);
     }
 }
