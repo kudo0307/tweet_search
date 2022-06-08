@@ -3,9 +3,9 @@ package com.example.demo.constants;
 // メッセージに関する文字を定義するファイル
 public interface MessageConst {
 
-    // アカウント新規作成
-    String ACCOUNT_ALREADY_EXISTS = "入力されたメールアドレスは既に登録されています。";
-
+    // アカウント
+    String ACCOUNT_ALREADY_EXISTS = "入力いただいたメールアドレスは既に登録されています";
+    String ACCOUNT_NOT_EXISTS = "アカウントが登録されていません";
 
     // バリデーションエラーメッセージ
 
@@ -25,10 +25,17 @@ public interface MessageConst {
     String MAIL_FROM = "tweetsearchinfo@gmail.com";
     // cc
     String MAIL_CC = "tweetsearchinfo@gmail.com";
+
     // アカウント新規作成
     String ACCOUNT_NEW_CREATE_MAIL_SUBJECT = "アカウント新規作成手続き"; // 件名
     String ACCOUNT_NEW_CREATE_MAIL_TEXT =
             "下記にて本登録のお手続きをお願い致します。\n\n"
             + "URL : " + MAIL_URL_PATH + "/accountNewCreate/create?token=${token}"; // 本文
+
+    // パスワード新規作成
+    String PASSWORD_NEW_CREATE_MAIL_SUBJECT = "パスワード再発行手続き"; // 件名
+    String PASSWORD_NEW_CREATE_MAIL_TEXT =
+            "下記にてパスワードの再発行をお願い致します。\n\n"
+            + "URL : " + MAIL_URL_PATH + "/passwordNewCreate/create?token=${token}"; // 本文
 
 }
