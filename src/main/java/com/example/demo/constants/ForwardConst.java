@@ -8,15 +8,19 @@ public interface ForwardConst {
     String ERR_UNKNOWN_PAGE = "views/error/unknown";
     String ERR_TOKEN_PAGE = "views/error/token-error";
 
+    // ログイン画面
+    String LOGIN_PAGE = "views/login/login.html";
+
     // アカウント
-    String ACCOUNT_INDEX_PAGE = "views/accounts/index";
-    String ACCOUNT_EDIT_PAGE = "views/accounts/edit";
+    String ACCOUNT_INDEX_PAGE = "views/account/index";
+    String ACCOUNT_EDIT_PAGE = "views/account/edit";
+    String ACCOUNT_EDIT_EMAIL_SEND_MAIL = "views/account/send-mail";
 
     // アカウント新規作成
-    String ACCOUNT_NEW_INDEX_PAGE = "views/accounts/newcreate/index";
-    String ACCOUNT_NEW_CREATE_PAGE = "views/accounts/newcreate/create";
-    String ACCOUNT_NEW_CREATE_COMPLETE = "views/accounts/newcreate/complete";
-    String ACCOUNT_NEW_CREATE_SEND_MAIL = "views/accounts/newcreate/send-mail";
+    String ACCOUNT_NEW_INDEX_PAGE = "views/account/newcreate/index";
+    String ACCOUNT_NEW_CREATE_PAGE = "views/account/newcreate/create";
+    String ACCOUNT_NEW_CREATE_COMPLETE = "views/account/newcreate/complete";
+    String ACCOUNT_NEW_CREATE_SEND_MAIL = "views/account/newcreate/send-mail";
 
     // パスワード新規作成
     String PASSWORD_NEW_INDEX_PAGE = "views/password/index";
