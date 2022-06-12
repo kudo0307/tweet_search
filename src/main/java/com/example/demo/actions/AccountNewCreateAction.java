@@ -161,7 +161,6 @@ public class AccountNewCreateAction extends ActionBase {
         Account saveAc = new Account();
 
         LocalDateTime now = LocalDateTime.now();
-        saveAc.setName(fac.getName()); // アカウント名
         saveAc.setEmail(anc.getEmail()); // メールアドレス
         saveAc.setPassword(EncryptUtil.passwordEncode(fac.getPassword())); // パスワード
         saveAc.setAdminFlag(JpaConst.ROLE_GENERAL); // 一般権限

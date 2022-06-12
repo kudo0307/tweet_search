@@ -6,7 +6,6 @@
 </head>
 <body>
     <div th:object="${formAccount}">
-        <p th:errors="*{name}"></p>
         <p th:errors="*{password}"></p>
         <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
         <form action="#" th:action = "@{/passwordNewCreate/create}" method="post">
