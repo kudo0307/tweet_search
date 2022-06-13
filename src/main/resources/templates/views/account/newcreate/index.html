@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <div th:object="${formAccountNewCreate}">
+
+        <span th:errors="*{email}"></span>
+        <span th:block th:if="${error != null}" th:text="${error}"></span>
+        <form action="#" th:action="@{/accountNewCreate/checkEmail}" method="post">
+            <p>登録するメールアドレスを入力してください</p>
+            <p><input type="text" th:field="*{email}" /></p>
+            <input type="submit" value="送信">
+        </form>
+
+    </div>
+</body>
+</html>
