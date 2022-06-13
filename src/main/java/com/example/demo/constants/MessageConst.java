@@ -3,6 +3,9 @@ package com.example.demo.constants;
 // メッセージに関する文字を定義するファイル
 public interface MessageConst {
 
+    // ログアウト
+    String LOGOUT_SUCCESS = "ログアウトしました";
+
     // アカウント
     String ACCOUNT_ALREADY_EXISTS = "入力いただいたメールアドレスは既に登録されています";
     String ACCOUNT_NOT_EXISTS = "アカウントが登録されていません";
@@ -18,6 +21,8 @@ public interface MessageConst {
     String VALID_PASSWORD_MIN = "パスワードは"+JpaConst.PASSWORD_MIN + "文字以上で入力してください";
     String VALID_PASSWORD_CONFIRM = "パスワードと再入力パスワードが一致しません";
 
+    // ログインエラー
+    String VALID_LOGIN = "メールアドレスまたはパスワードが間違っています";
 
     // メール
     String MAIL_URL_PATH = "http://localhost:8080";

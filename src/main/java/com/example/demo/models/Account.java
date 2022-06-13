@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,17 +25,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account implements UserDetails{
+
 
     // id
     @Id
     @Column(name = "acc_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    // アカウント名
-    @Column(name="acc_name",length = 50, nullable = false)
-    private String name;
 
     // メールアドレス
     @Column(name="acc_email", length=255, nullable=false)
@@ -56,5 +57,36 @@ public class Account {
     // 削除日
     @Column(name="acc_deleted_at")
     private LocalDateTime deletedAt;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 
 }
