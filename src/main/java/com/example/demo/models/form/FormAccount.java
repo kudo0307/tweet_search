@@ -28,15 +28,13 @@ public class FormAccount implements Serializable{
     public static interface CreateData {}
     public static interface NewPasswordData {}
     public static interface EditData{}
-    public static interface NameUpdateData{}
-    public static interface EmailUpdateData{}
-    public static interface PasswordUpdateData{}
+    public static interface UpdateData{}
 
     // id
     @NotNull(groups={EditData.class})
     private Integer id;
 
-    @Email(groups= {EmailUpdateData.class}, message=MessageConst.VALID_EMAIL)
+    @Email(groups= {UpdateData.class}, message=MessageConst.VALID_EMAIL)
     // メールアドレス
     private String email;
 
@@ -45,17 +43,17 @@ public class FormAccount implements Serializable{
             groups= {
                     CreateData.class,
                     NewPasswordData.class,
-                    PasswordUpdateData.class
+                    UpdateData.class
                     },
             message=MessageConst.VALID_PASSWORD_NOT_BLANK)
-    @Length(min=JpaConst.PASSWORD_MIN,groups= { CreateData.class,NewPasswordData.class,PasswordUpdateData.class },message=MessageConst.VALID_PASSWORD_MIN)
+    @Length(min=JpaConst.PASSWORD_MIN,groups= { CreateData.class,NewPasswordData.class,UpdateData.class },message=MessageConst.VALID_PASSWORD_MIN)
     private String password;
 
     // パスワード確認
     private String passwordConfirm;
 
     // パスワードの相関チェック
-    @AssertTrue(groups= { CreateData.class,NewPasswordData.class,PasswordUpdateData.class },message=MessageConst.VALID_PASSWORD_CONFIRM)
+    @AssertTrue(groups= { CreateData.class,NewPasswordData.class,UpdateData.class },message=MessageConst.VALID_PASSWORD_CONFIRM)
     public boolean isPasswordValid() {
         if(password == null || password.isBlank()) {
             return true;
