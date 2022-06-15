@@ -7,4 +7,7 @@ public interface CommonConst {
     String OAUTH_CONSUMER_KEY = "lYHg71gP1OMQdoMVdUvvAPQKQ";
     String OAUTH_CONSUMER_SECRET = "46KZpVpO9tJjdNExFdkJQBvAnlszqLPCDAaaw7FHtQyaPvbhXo";
     String BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAFkzcwEAAAAAN25jW82k8G5PB483GL9fuoBZuI0%3D2ZqaqMxY5UwoRVpoxk1pwcUyMquQldteyYEi9AwQ27TEOlE4hH";
+
+    // tweet検索時の取得件数
+    String TWEET_MAX_RESULT = "10";
 }

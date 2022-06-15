@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.flex {
+    display: flex; /* これで横並びになる */
+}
+.twitter-tweet {
+    padding: 5px; /* 1つのツイートの周りに5pxの余白をつける */
+    margin: 10px auto; /* ツイートを中央寄せにする */
+}
