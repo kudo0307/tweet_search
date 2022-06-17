@@ -4,10 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.Size;
 
 import com.example.demo.constants.JpaConst;
 import com.example.demo.constants.MessageConst;
@@ -28,32 +26,26 @@ public class FormAccount implements Serializable{
     public static interface CreateData {}
     public static interface NewPasswordData {}
     public static interface EditData{}
-    public static interface UpdateData{}
+    public static interface EmailUpdateData{}
+    public static interface PasswordUpdateData{}
 
     // id
     @NotNull(groups={EditData.class})
     private Integer id;
 
-    @Email(groups= {UpdateData.class}, message=MessageConst.VALID_EMAIL)
+    @Email(groups= {EmailUpdateData.class}, message=MessageConst.VALID_EMAIL)
     // メールアドレス
     private String email;
 
     // パスワード
-    @NotBlank(
-            groups= {
-                    CreateData.class,
-                    NewPasswordData.class,
-                    UpdateData.class
-                    },
-            message=MessageConst.VALID_PASSWORD_NOT_BLANK)
-    @Length(min=JpaConst.PASSWORD_MIN,groups= { CreateData.class,NewPasswordData.class,UpdateData.class },message=MessageConst.VALID_PASSWORD_MIN)
+    @Size(min = JpaConst.PASSWORD_MIN,max=JpaConst.PASSWORD_MAX,groups= { CreateData.class,NewPasswordData.class,PasswordUpdateData.class},message=MessageConst.VALID_PASSWORD_SIZE)
     private String password;
 
     // パスワード確認
     private String passwordConfirm;
 
     // パスワードの相関チェック
-    @AssertTrue(groups= { CreateData.class,NewPasswordData.class,UpdateData.class },message=MessageConst.VALID_PASSWORD_CONFIRM)
+    @AssertTrue(groups= { CreateData.class,NewPasswordData.class,PasswordUpdateData.class },message=MessageConst.VALID_PASSWORD_CONFIRM)
     public boolean isPasswordValid() {
         if(password == null || password.isBlank()) {
             return true;

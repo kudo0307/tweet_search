@@ -3,9 +3,12 @@ package com.example.demo.constants;
 // DB関連の定数クラス
 public interface JpaConst {
 
-    // アカウント
+    // データ取得件数の最大値
+    int ROW_PER_PAGE = 10; //1ページに表示するレコードの数
 
+    // アカウント
     int PASSWORD_MIN = 8; // パスワードの最小文字数
+    int PASSWORD_MAX = 255; // パスワードの最大文字数
 
 
     // 管理者権限

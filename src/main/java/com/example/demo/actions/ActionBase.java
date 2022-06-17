@@ -11,11 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.example.demo.constants.JpaConst;
+import com.example.demo.models.Account;
 import com.example.demo.services.OnetimePasswordService;
 
-@Controller
+@ControllerAdvice
 public abstract class ActionBase {
 
     protected HttpServletRequest request;
@@ -27,11 +32,22 @@ public abstract class ActionBase {
     @Autowired
     private OnetimePasswordService otpservice;
 
-     // セッションIDを取得する
-     // @return セッションID
+    // デフォルトデータセット
+    @ModelAttribute
+    public void addDefaults(@AuthenticationPrincipal Account loginAccount,Model model) {
+        // ログインデータセット
+        model.addAttribute("loginAccount",loginAccount);
+        // 管理者権限
+        model.addAttribute("roleAdmin",JpaConst.ROLE_ADMIN);
+    }
 
-    protected String getTokenId() {
-        return session.getId();
+    // 管理者権限チェック
+    protected static boolean checkAdmin(@AuthenticationPrincipal Account loginAccount) {
+        if(loginAccount.getAdminFlag() != JpaConst.ROLE_ADMIN) {
+            return false;
+        }else {
+            return true;
+        }
     }
 
     // メールを送信する

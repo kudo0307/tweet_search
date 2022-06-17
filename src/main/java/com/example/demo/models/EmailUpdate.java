@@ -6,39 +6,39 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
-import com.example.demo.constants.MessageConst;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-// アカウント新規作成テーブルのDTOモデル
-@Table(name="account_new_create")
+// メールアドレス更新テーブルのDTOモデル
+@Table(name="email_update")
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountNewCreate {
+public class EmailUpdate {
 
 
     // id
     @Id
-    @Column(name = "anc_id")
+    @Column(name = "emu_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message=MessageConst.VALID_EMAIL)
-    @Email(message=MessageConst.VALID_EMAIL)
+    // アカウントテーブル
+    @ManyToOne
+    @JoinColumn(name="emu_acc_id",nullable=false)
+    private Account ac;
+
     // メールアドレス
-    @Column(name="anc_email", length=255, nullable=false)
+    @Column(name="emu_email", length=255, nullable=false)
     private String email;
 
     // ワンタイムパスワードテーブル
     @OneToOne
-    @JoinColumn(name="anc_otp_id",nullable=false)
+    @JoinColumn(name="emu_otp_id",nullable=false)
     private OnetimePassword otp;
 }

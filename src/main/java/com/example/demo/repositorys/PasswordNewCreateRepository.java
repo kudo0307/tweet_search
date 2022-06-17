@@ -10,7 +10,7 @@ import com.example.demo.models.PasswordNewCreate;
 public interface PasswordNewCreateRepository extends JpaRepository<PasswordNewCreate,Integer> {
 
     // アカウントidを元に削除されていないパスワード新規作成データを取得
-    @Query(value="SELECT pnc FROM PasswordNewCreate AS pnc , Account AS ac, OnetimePassword AS otp WHERE otp.deletedAt IS NULL AND pnc.ac.id = :id")
+    @Query(value="SELECT pnc FROM PasswordNewCreate AS pnc , Account AS ac, OnetimePassword AS otp WHERE pnc.ac.deletedAt IS NULL AND pnc.otp.deletedAt IS NULL AND pnc.ac.id = :id")
     PasswordNewCreate findByDeletedAtIsNullANDIdIs(Integer id);
 
     // トークンを元に削除されていないパスワード新規作成データを取得

@@ -1,0 +1,18 @@
+
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head_fragment(title, scripts, links)">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
+
+</head>
+
+
+<header xmlns:th="http://www.thymeleaf.org" th:fragment="header_fragment" id="header">
+    <h1>TweetSearch</h1>
+    <nav class="gnav">
+        <ul class="menu">
+            <li><a href="/tweetSearch"  th:href="@{/tweetSearch}">Tweet検索</a></li>
+            <li th:if="${loginAccount.adminFlag == roleAdmin}"><a href="/account"  th:text="アカウント一覧画面へ" th:href="@{/account}"></a></li>
+            <li><a href="/account/edit"  th:text="アカウント編集画面へ" th:href="@{/account/edit(id=${loginAccount.id})}"></a></li>
+        </ul>
+    </nav>
+</header>

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.actions.ActionBase;
 import com.example.demo.constants.JpaConst;
 import com.example.demo.models.OnetimePassword;
-import com.example.demo.models.PasswordNewCreate;
 import com.example.demo.repositorys.OnetimePasswordRepository;
 
 @Service
@@ -24,11 +23,10 @@ public class OnetimePasswordService {
     }
 
     // 既に登録されているワンタイムパスワードを削除する
-    public void deleteOnetimePassword(PasswordNewCreate pnc) {
-        if(pnc==null) {
+    public void deleteOnetimePassword(OnetimePassword deleteOtp) {
+        if(deleteOtp==null) {
             return;
         }
-        OnetimePassword deleteOtp = pnc.getOtp();
         deleteOtp.setDeletedAt(LocalDateTime.now()); // 削除日
         otpSave(deleteOtp); // 更新
     }

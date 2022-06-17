@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Account;
+import com.example.demo.models.EmailUpdate;
 import com.example.demo.models.PasswordNewCreate;
 import com.example.demo.models.form.FormAccount;
 import com.example.demo.repositorys.AccountRepository;
@@ -62,6 +63,26 @@ public class AccountService implements UserDetailsService{
         ac.setPassword(EncryptUtil.passwordEncode(fac.getPassword())); // パスワード
         ac.setUpdatedAt(now); // 更新日
         acSave(ac); // 更新
+    }
+
+    /* メールアドレス更新
+     * @param emu メールアドレス更新データ
+     */
+    public void emailUpdate(EmailUpdate emu) {
+        Account saveAc = emu.getAc();
+        saveAc.setEmail(emu.getEmail()); // メールアドレス
+        saveAc.setUpdatedAt(LocalDateTime.now()); // 更新日
+        acSave(saveAc); // 更新
+    }
+
+    /* パスワード更新
+     * @param ac アカウントデータ
+     * @param password パスワード
+     */
+    public Account passwordUpdate(Account ac,String password) {
+        ac.setPassword(EncryptUtil.passwordEncode(password)); // パスワード
+        ac.setUpdatedAt(LocalDateTime.now()); // 更新日
+        return acSave(ac); // 更新
     }
 
     // アカウントデータ更新

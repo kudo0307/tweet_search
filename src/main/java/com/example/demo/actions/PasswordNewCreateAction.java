@@ -67,17 +67,8 @@ public class PasswordNewCreateAction extends ActionBase {
             return ForwardConst.PASSWORD_NEW_INDEX_PAGE;
         }
 
-        // アカウントidを元にパスワード新規作成データを取得
-        PasswordNewCreate pnc = pncService.getByAccountId(ac.getId());
-
-        // 既に登録されているワンタイムパスワードデータを削除する
-        otpService.deleteOnetimePassword(pnc);
-
-        // ワンタイムパスワード作成
-        OnetimePassword otp = otpService.createOnetimePassword();
-
         // パスワード新規作成テーブルへデータ登録
-        PasswordNewCreate createPnc = pncService.create(ac, otp); // 登録
+        PasswordNewCreate createPnc = pncService.create(ac); // 登録
 
         // メール送信
         // 置換する文字の配列作成
@@ -151,7 +142,7 @@ public class PasswordNewCreateAction extends ActionBase {
         acService.passwordUpdate(fac, pnc);
 
         // ワンタイムパスワードを削除する
-        otpService.deleteOnetimePassword(pnc);
+        otpService.deleteOnetimePassword(pnc.getOtp());
 
         // パスワード登録完了画面
         return ForwardConst.ACCOUNT_NEW_CREATE_COMPLETE;

@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})">
 </head>
 <body>
+     <div th:replace="views/common :: header_fragment"></div>
+     <div th:if="${flush} != null" th:text="${flush}"></div>
      <div th:object="${formAccount}">
-         <p th:errors="*{email}"></p>
-         <form action="#" th:action="@{/account/emailUpdate}" method="post">
+         <form action="#" th:action="@{/account/emailCheck}" method="post">
+            <input type="hidden" name="protectionToken" value="${protectionToken}">
              <div>
                  <label>メールアドレス</label>
                  <p><input type="text" th:field="*{email}"></p>
+                 <p th:errors="*{email}"></p>
+                 <p th:if="${emailError != null}" th:text="${emailError}"></p>
              </div>
              <input type="submit" value="保存">
          </form>
      </div>
      <div th:object="${formAccount}">
-         <p th:errors="*{password}"></p>
-         <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
-         <form action="#" th:action="@{/account/passwordUpdate}" method="post">
+        <form action="#" th:action="@{/account/passwordUpdate}" method="post">
+            <input type="hidden" name="protectionToken" value="${protectionToken}">
              <div>
                  <label>パスワード</label>
                  <p><input type="password" th:field="*{password}"></p>
+                 <p th:errors="*{password}"></p>
              </div>
              <div>
-                 <label>パスワード(確認)</label>
+                 <label>パスワード(再入力)</label>
                  <p><input type="password" th:field="*{passwordConfirm}"></p>
+                 <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
              </div>
              <input type="submit" value="保存">
          </form>

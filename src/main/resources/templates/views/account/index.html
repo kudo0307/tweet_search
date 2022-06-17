@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="UTF-8">
-    <title>動画検索</title>
-    <link th:href="@{/css/reset.css}" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})">
 </head>
 <body>
+    <div th:replace="views/common :: header_fragment"></div>
     <div id="wrapper">
-        <div id="header">
-            <div id="header_menu">
-                <h1>動画検索</h1>
-                <a href="">アカウント管理</a>&nbsp;
-            </div>
-        </div>
         <h2>アカウント　一覧</h2>
         <table id="employee_list">
             <tbody>
