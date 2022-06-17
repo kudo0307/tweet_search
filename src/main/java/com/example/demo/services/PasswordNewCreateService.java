@@ -18,6 +18,9 @@ public class PasswordNewCreateService {
     @Autowired
     private PasswordNewCreateRepository pncRepository;
 
+    @Autowired
+    private OnetimePasswordService otpService;
+
 
     // アカウントidを元にデータを取得
     // @param id アカウントid
@@ -37,7 +40,20 @@ public class PasswordNewCreateService {
     // @param ac アカウントデータ
     // @param otp ワンタイムパスワードデータ
     // @return 登録したパスワード新規作成データ
-    public PasswordNewCreate create(Account ac, OnetimePassword otp) {
+    public PasswordNewCreate create(Account ac) {
+        try {
+            // アカウントidを元にパスワード新規作成データを取得
+            PasswordNewCreate pnc = getByAccountId(ac.getId());
+
+            // 既に登録されているワンタイムパスワードデータを削除する
+            otpService.deleteOnetimePassword(pnc.getOtp());
+        }catch(Exception e) {
+
+        }
+
+        // ワンタイムパスワード作成
+        OnetimePassword otp = otpService.createOnetimePassword();
+
         PasswordNewCreate savePnc = new PasswordNewCreate();
 
         savePnc.setAc(ac); // アカウントテーブルid
