@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})">
+<head th:replace="views/common :: head_fragment(title = 'TweetSearch', scripts = ~{::script}, links = ~{::link})">
 </head>
 <script type="text/javascript" src="https://platform.twitter.com/widgets.js" th:src="@{https://platform.twitter.com/widgets.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/tweet.css}"/>
@@ -9,13 +9,11 @@
     <form action="#" th:action="@{/tweetSearch}" method="GET">
         <p><input type="text" name="query" th:value="${query}"><input type="submit" value="検索する"></p>
     </form>
-
     <div>
         <div th:each="twitter : ${twitters}">
             <iframe width="560" height="315" th:src="${twitter.videoUrl}+'&playsinline=0&autoplay=muted'" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
-
     <th:block th:if="${next_token != null&&!next_token.isBlank()}">
         <form action="#" th:action="@{/tweetSearch}" method="GET">
             <input type="hidden" name="query" th:value="${query}">
@@ -23,6 +21,5 @@
             <p><input type="submit" value="次へ"></p>
         </form>
     </th:block>
-
 </body>
 </html>
