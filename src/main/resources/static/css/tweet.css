@@ -1,9 +1,106 @@
 @charset "UTF-8";
 
+body {
+    width:980px;
+    margin:0 auto;
+    background-color: #A1C0EF
+}
 .flex {
     display: flex; /* これで横並びになる */
 }
 .twitter-tweet {
     padding: 5px; /* 1つのツイートの周りに5pxの余白をつける */
     margin: 10px auto; /* ツイートを中央寄せにする */
+}
+.search_box{
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.query_iptxt {
+    position: relative;
+    margin: 40px 3%;
+}
+.query_iptxt input[type='text'] {
+    font: 15px/24px sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.3em;
+    transition: 0.3s;
+    letter-spacing: 1px;
+    color: #aaaaaa;
+    border: 1px solid #1b2538;
+    border-radius: 4px;
+}
+.ef input[type='text']:focus {
+    border: 1px solid #da3c41;
+    outline: none;
+    box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+}
+
+
+.submit_button {
+    display: inline-block;
+    font-size: 14pt;
+    text-align: center;
+    background: #1A8CD8;
+    color: #ffffff;
+    width: 200px;
+}
+
+.submit_button:hover {
+  color         : #1a8cd8;     /* 背景色     */
+  background    : #ffffff;     /* 文字色     */
+}
+
+.tweet_box{
+    text-align: center;
+}
+.tweet_box .tweet_area{
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+}
+
+.search_title_erea{
+    text-align: center;
+}
+
+.next_btn_erea{
+    padding: 20px 0;
+}
+
+.next_btn_erea .next_btn {
+    background: #eee;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 560px;
+    padding: 10px 25px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 500;
+    width: 560px;
+}
+.next_btn_erea .next_btn:hover {
+    background: #313131;
+    color: #FFF;
+}
+.next_btn_erea .next_btn:after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-top: 3px solid #313131;
+    border-right: 3px solid #313131;
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    border-radius: 1px;
+    transition: 0.3s ease-in-out;
+}
+.next_btn_erea .next_btn:hover:after {
+    border-color: #FFF;
 }

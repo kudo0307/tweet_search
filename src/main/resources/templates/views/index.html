@@ -6,20 +6,32 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/tweet.css}"/>
 <body>
     <div th:replace="views/common :: header_fragment"></div>
-    <form action="#" th:action="@{/tweetSearch}" method="GET">
-        <p><input type="text" name="query" th:value="${query}"><input type="submit" value="検索する"></p>
-    </form>
-    <div>
-        <div th:each="twitter : ${twitters}">
+    <div class="search_box">
+        <form action="#" th:action="@{/tweetSearch}" method="GET">
+            <div class="query_iptxt">
+                <label class="ef">
+                   <input type="text" name="query" th:value="${query}" placeholder="検索キーワードを入力してください" autofocus="autofocus">
+                </label>
+            </div>
+            <input type="submit" value="検索" class="submit_button">
+        </form>
+    </div>
+    <div class="search_title_erea">
+        <h1 th:if="${!query.isBlank()}">『<th:block th:text="${query}"></th:block>』の検索結果</h1>
+    </div>
+    <div class="tweet_box">
+        <div class="tweet_area" th:each="twitter : ${twitters}">
             <iframe width="560" height="315" th:src="${twitter.videoUrl}+'&playsinline=0&autoplay=muted'" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
-    <th:block th:if="${next_token != null&&!next_token.isBlank()}">
+    <div class="next_btn_erea" th:if="${next_token != null&&!next_token.isBlank()}">
         <form action="#" th:action="@{/tweetSearch}" method="GET">
             <input type="hidden" name="query" th:value="${query}">
             <input type="hidden" name="next_token" th:value="${next_token}">
-            <p><input type="submit" value="次へ"></p>
+            <div class="next_btn_erea">
+                <input type="submit" value="次へ" class="next_btn">
+            </div>
         </form>
-    </th:block>
+    </div>
 </body>
 </html>

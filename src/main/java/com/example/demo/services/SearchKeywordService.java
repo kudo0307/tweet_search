@@ -22,7 +22,6 @@ public class SearchKeywordService {
      * return 検索キーワードデータ
      */
 
-    // @return 登録した検索キーワードデータ
     public SearchKeyword create(@AuthenticationPrincipal Account loginAccount,String keyword) {
         SearchKeyword saveSrk = new SearchKeyword();
         saveSrk.setAc(loginAccount); // アカウント情報セット
