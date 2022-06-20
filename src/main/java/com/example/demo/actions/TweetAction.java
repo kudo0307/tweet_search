@@ -16,6 +16,8 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +25,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.actions.views.TweetConverter;
 import com.example.demo.constants.CommonConst;
+import com.example.demo.models.Account;
+import com.example.demo.models.SearchKeyword;
 import com.example.demo.models.TweetData;
+import com.example.demo.services.SearchKeywordService;
+import com.example.demo.services.SearchResultService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class TweetAction {
+
+    @Autowired
+    private SearchKeywordService srkService;
+    @Autowired
+    private SearchResultService srtService;
     @RequestMapping("/tweetSearch")
-    public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String next_token,Model model) throws IOException, URISyntaxException {
+    public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String next_token,@AuthenticationPrincipal Account loginAccount,Model model) throws IOException, URISyntaxException {
 
         // ツイートデータリスト
         List<TweetData> tweetDataList = new ArrayList<>();
@@ -49,7 +60,6 @@ public class TweetAction {
             ObjectMapper mapper = new ObjectMapper();
             // JsonNodeに変換
             JsonNode json = mapper.readTree(response);
-            System.out.println(json);
             // ツイートデータを取得できたか判定
             if(json!= null &&json.get("meta").get("result_count").asInt()!=0) {
                 // 取得できなかったデータの続きを取得するためのトークン
@@ -57,6 +67,14 @@ public class TweetAction {
                 // ツイートデータリスト生成
                 tweetDataList = TweetConverter.jsonNodeToTweetList(json);
             }
+
+            // 検索キーワードを登録
+            SearchKeyword saveSrk = srkService.create(loginAccount,query);
+            // 検索結果を登録
+            srtService.create(tweetDataList, saveSrk);
+
+
+
         }
         model.addAttribute("twitters",tweetDataList); // ツイートリスト
         model.addAttribute("query",query); // 検索キーワード
@@ -66,7 +84,13 @@ public class TweetAction {
     }
 
 
-    private static String search(String searchString,String next_token, String bearerToken) throws IOException, URISyntaxException {
+    /* ツイート検索
+     * @param query 検索キーワード
+     * @param next_token 次のデータ取得するためのトークン
+     * @param bearerToken 認証用トークン
+     * @return 検索結果
+     * */
+    private static String search(String query,String next_token, String bearerToken) throws IOException, URISyntaxException {
         String searchResponse = null;
 
         HttpClient httpClient = HttpClients.custom()
@@ -77,7 +101,7 @@ public class TweetAction {
         URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/recent");
         ArrayList<NameValuePair> queryParameters;
         queryParameters = new ArrayList<>();
-        queryParameters.add(new BasicNameValuePair("query", searchString));
+        queryParameters.add(new BasicNameValuePair("query", query));
         queryParameters.add(new BasicNameValuePair("max_results", CommonConst.TWEET_MAX_RESULT));
         queryParameters.add(new BasicNameValuePair("tweet.fields", "created_at,id,text"));
         if(next_token!= null && !next_token.isBlank()) {

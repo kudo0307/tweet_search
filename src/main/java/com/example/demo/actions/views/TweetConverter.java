@@ -25,27 +25,39 @@ public class TweetConverter {
         Twitter twitter = new TwitterFactory().getSingleton();
         for(int i=0;i<json.get("data").size(); i++) {
 
-            try {
-                Status twStatus = twitter.showStatus(json.get("data").get(i).get("id").asLong());
-                TweetData tweetData = new TweetData();
-                tweetData.setId(twStatus.getId()); // ツイートidをセット
-                tweetData.setText(twStatus.getText()); // ツイート本文をセット
-                for (MediaEntity mediaEntity : twStatus.getMediaEntities()) {
-
-                    // 動画URL取得
-                    for(Variant variant : mediaEntity.getVideoVariants()) {
-                        // 動画URLか判定
-                        if(variant.getUrl().indexOf(".mp4") != -1) {
-                            tweetData.setVideoUrl(variant.getUrl()); // 動画URLセット
-                        }
-                    }
-                }
+            // ツイートデータ取得
+            TweetData tweetData = tweetIdToTweetData(json.get("data").get(i).get("id").asLong());
+            if(tweetData != null) {
                 tweetDataList.add(tweetData); // ツイートデータリストに追加
-
-            } catch (TwitterException e) {
-                e.printStackTrace();
             }
         }
         return tweetDataList;
+    }
+
+    /* ツイートIDを元にツイートを取得して、TweetDataに変換して返す
+     * @param id ツイートid
+     * @return tweetData  ツイートデータ
+     */
+    public static TweetData tweetIdToTweetData(long id){
+        TweetData tweetData = new TweetData(); // ツイートデータ
+        try {
+            Twitter twitter = new TwitterFactory().getSingleton();
+            Status twStatus = twitter.showStatus(id);
+            tweetData.setId(twStatus.getId()); // ツイートidをセット
+            tweetData.setText(twStatus.getText()); // ツイート本文をセット
+            for (MediaEntity mediaEntity : twStatus.getMediaEntities()) {
+
+                // 動画URL取得
+                for(Variant variant : mediaEntity.getVideoVariants()) {
+                    // 動画URLか判定
+                    if(variant.getUrl().indexOf(".mp4") != -1) {
+                        tweetData.setVideoUrl(variant.getUrl()); // 動画URLセット
+                    }
+                }
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return tweetData;
     }
 }
