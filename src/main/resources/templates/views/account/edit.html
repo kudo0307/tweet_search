@@ -8,7 +8,7 @@
          <div class="box_title">
             <h2>アカウント設定</h2>
          </div>
-         <div class="form_erea">
+         <div class="form_area">
              <p th:if="${flush} != null" th:text="${flush}"></p>
              <div class="form_block" th:object="${formAccount}">
                  <form action="#" th:action="@{/account/emailCheck}" method="post">
@@ -26,7 +26,6 @@
                      <div class="submit_button_are">
                         <input type="submit" value="認証メール送信" class="submit_button">
                      </div>
-
                  </form>
              </div>
              <div class="form_block" th:object="${formAccount}">
