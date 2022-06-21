@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -190,6 +191,12 @@ public class AccountAction extends ActionBase {
 
         // ワンタイムパスワードを削除する
         otpService.deleteOnetimePassword(emu.getOtp());
+
+        // ログイン情報削除
+        model.addAttribute("loginAccount",new Account());
+
+        // sessionからログイン情報を削除
+        SecurityContextHolder.clearContext();
 
         // メールアドレス更新完了画面
         return ForwardConst.ACCOUNT_UPDATE_EMAIL;
