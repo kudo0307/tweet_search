@@ -84,7 +84,7 @@ body {
     border: solid #276b99;
     background: #276b99;
 }
-.message_box .message_area .message_title h1{
+.message_box .message_area .message_title h1,h2{
     color:white;
 }
 .message_box .message_area .message{
