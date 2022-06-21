@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'アカウント新規作成', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account_new_create.css}"/>
 <body>
-
-    <div th:object="${formAccountNewCreate}">
-
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="form_box" th:object="${formAccountNewCreate}">
         <span th:errors="*{email}"></span>
         <span th:block th:if="${error != null}" th:text="${error}"></span>
         <form action="#" th:action="@{/accountNewCreate/checkEmail}" method="post">
-            <p>登録するメールアドレスを入力してください</p>
-            <p><input type="text" th:field="*{email}" /></p>
-            <input type="submit" value="送信">
+            <div class="form_title">
+                <h3>登録するメールアドレスを入力してください</h3>
+            </div>
+            <div class="form_input_area">
+               <label class="ef">
+                  <input type="text" th:field="*{email}" class="form_input">
+               </label>
+            </div>
+            <div class="submit_button_are">
+               <input type="submit" value="認証メールを送信" class="submit_button">
+            </div>
         </form>
-
     </div>
 </body>
 </html>
