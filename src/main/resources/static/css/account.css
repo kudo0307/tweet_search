@@ -59,10 +59,46 @@ body {
 .setting_box{
         width: 91%;
         zoom:1.3;
-        text-shadow:1px 2px 3px #808080;
         margin:0 auto;
 }
 .setting_box h2,h3{
     color:white;
+    text-shadow:1px 2px 3px #808080;
 }
 
+.error_message{
+    color: #ff5d92;
+    font-weight: bold;
+}
+
+.message_box{
+    width: 850px;
+    margin: auto;
+}
+
+.message_box .message_area{
+    text-align: center;
+    margin-top: 100px;
+}
+.message_box .message_area .message_title{
+    border: solid #276b99;
+    background: #276b99;
+}
+.message_box .message_area .message_title h1{
+    color:white;
+}
+.message_box .message_area .message{
+    border: solid white;
+    border-top: none;
+    background: white;
+}
+
+.message_box .message_area .message p{
+    width: fit-content;
+    margin: auto;
+    font-size: 20px;
+    padding: 20px;
+}
+.message_box .return_link{
+    text-align: center;
+}

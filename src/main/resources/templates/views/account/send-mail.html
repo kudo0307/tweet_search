@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"/>
 <body>
-    <h1>メール送信完了</h1>
-    <p>入力いただいたメールアドレスに<br>メールアドレス変更用URLをお送りしましたので、<br>そちらのリンクから変更を確定してください。</p>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="message_box">
+        <div class="message_area">
+            <div class="message_title">
+                <h1>メール送信完了</h1>
+            </div>
+            <div class="message">
+                <p>入力いただいたメールアドレスに<br>メールアドレス変更用URLをお送りしましたので、<br>そちらのリンクから変更を確定してください。</p>
+            </div>
+        </div>
+        <div class="return_link">
+            <p><a th:href="@{/account/edit(id=${id})}" th:text="もう一度メールアドレスを入力する"></a></p>
+        </div>
+    </div>
 </body>
 </html>

@@ -20,8 +20,8 @@
                                <input type="text" th:field="*{email}" class="form_input">
                             </label>
                          </div>
-                         <p th:errors="*{email}"></p>
-                         <p th:if="${emailError != null}" th:text="${emailError}"></p>
+                         <p class="error_message" th:errors="*{email}"></p>
+                         <p class="error_message" th:if="${emailError != null}" th:text="${emailError}"></p>
                      </div>
                      <div class="submit_button_are">
                         <input type="submit" value="認証メール送信" class="submit_button">
@@ -38,7 +38,7 @@
                                 <input type="password" th:field="*{password}" class="form_input">
                             </label>
                          </div>
-                         <p th:errors="*{password}"></p>
+                         <p class="error_message" th:errors="*{password}"></p>
                      </div>
                      <div>
                          <h3>パスワード(再入力)</h3>
@@ -47,7 +47,7 @@
                                     <input type="password" th:field="*{passwordConfirm}" class="form_input">
                                 </label>
                            </div>
-                         <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
+                         <p class="error_message" th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
                      </div>
                      <div class="submit_button_are">
                         <input type="submit" value="更新" class="submit_button">

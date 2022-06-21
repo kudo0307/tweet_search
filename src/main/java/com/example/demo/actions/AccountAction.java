@@ -154,6 +154,9 @@ public class AccountAction extends ActionBase {
         session.removeAttribute("account");
         // sessionからトークン削除
         session.removeAttribute("protectionToken");
+
+        // アカウントIDをセット
+        model.addAttribute("id",saveEmu.getAc().getId());
         // メール送信画面
         return ForwardConst.ACCOUNT_EDIT_EMAIL_SEND_MAIL;
     }
