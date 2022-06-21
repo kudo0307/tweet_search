@@ -9,8 +9,12 @@
            <h2>ログイン</h2>
         </div>
         <div class="form_area">
-            <div th:if="${param.error}">メールアドレスかパスワードが間違っています</div>
-            <div th:if="${logout}" th:text="${logout}"></div>
+            <div class="error_message" th:if="${param.error}">
+                <p>メールアドレスかパスワードが間違っています</p>
+            </div>
+            <div class="error_message" th:if="${logout}">
+                <p th:text="${logout}"></p>
+            </div>
             <form action="#" th:action="@{/login}" method="post">
                 <div class="form_block" >
                     <div class="form_title">

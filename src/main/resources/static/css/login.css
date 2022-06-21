@@ -68,3 +68,14 @@ body{
      color         : #1a8cd8;
      background    : #ffffff;
 }
+
+.error_message{
+    height: 40px;
+    color: #ff5d92;
+    text-align: center;
+    padding-top: 1px;
+    font-size: 20px;
+}
+.error_message p{
+    font-weight: bold;
+}
