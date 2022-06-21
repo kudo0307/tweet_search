@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/css/login.css}">
-<title>ログイン</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'ログイン', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
 <body>
-    <div>
-        <h2>ログイン</h2>
-            <div th:if="${param.error}">
-                メールアドレスかパスワードが間違っています
-            </div>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="login_box">
+        <div class="box_title">
+           <h2>ログイン</h2>
+        </div>
+        <div class="form_area">
+            <div th:if="${param.error}">メールアドレスかパスワードが間違っています</div>
             <div th:if="${logout}" th:text="${logout}"></div>
-        <div>
             <form action="#" th:action="@{/login}" method="post">
-                <div>
-                    <p>メールアドレス</p>
-                    <p><input type="text" name="username" /></p>
+                <div class="form_block" >
+                    <div class="form_title">
+                        <h3>メールアドレス</h3>
+                        <div class="form_input_area">
+                           <label class="ef">
+                              <input type="text" name="username" class="form_input">
+                           </label>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p>パスワード</p>
-                    <p><input type="password" name="password" /></p>
+                <div class="form_block" >
+                    <div class="form_title">
+                        <div class="form_title">
+                            <h3>パスワード</h3>
+                            <div class="form_input_area">
+                               <label class="ef">
+                                  <input type="password" name="password" class="form_input">
+                               </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <input type="submit" value="ログイン">
+                <div class="submit_button_are">
+                   <input type="submit" value="ログイン" class="submit_button">
+                </div>
             </form>
             <p><a href="/accountNewCreate"  th:text="アカウント新規作成" th:href="@{/accountNewCreate}"></a></p>
             <p><a href="/passwordNewCreate"  th:text="パスワードをお忘れの場合" th:href="@{/passwordNewCreate}"></a></p>
