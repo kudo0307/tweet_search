@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})">
-</head>
+<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"/>
 <body>
      <div th:replace="views/common :: header_fragment"></div>
-     <div th:if="${flush} != null" th:text="${flush}"></div>
-     <div th:object="${formAccount}">
-         <form action="#" th:action="@{/account/emailCheck}" method="post">
-            <input type="hidden" name="protectionToken" value="${protectionToken}">
-             <div>
-                 <label>メールアドレス</label>
-                 <p><input type="text" th:field="*{email}"></p>
-                 <p th:errors="*{email}"></p>
-                 <p th:if="${emailError != null}" th:text="${emailError}"></p>
+     <div class="setting_box">
+         <div class="box_title">
+            <h2>アカウント設定</h2>
+         </div>
+         <div class="form_erea">
+             <p th:if="${flush} != null" th:text="${flush}"></p>
+             <div class="form_block" th:object="${formAccount}">
+                 <form action="#" th:action="@{/account/emailCheck}" method="post">
+                    <input type="hidden" name="protectionToken" value="${protectionToken}">
+                     <div class="form_title">
+                         <h3>メールアドレス</h3>
+                         <div class="form_input_area">
+                            <label class="ef">
+                               <input type="text" th:field="*{email}" class="form_input">
+                            </label>
+                         </div>
+                         <p th:errors="*{email}"></p>
+                         <p th:if="${emailError != null}" th:text="${emailError}"></p>
+                     </div>
+                     <div class="submit_button_are">
+                        <input type="submit" value="認証メール送信" class="submit_button">
+                     </div>
+
+                 </form>
              </div>
-             <input type="submit" value="保存">
-         </form>
-     </div>
-     <div th:object="${formAccount}">
-        <form action="#" th:action="@{/account/passwordUpdate}" method="post">
-            <input type="hidden" name="protectionToken" value="${protectionToken}">
-             <div>
-                 <label>パスワード</label>
-                 <p><input type="password" th:field="*{password}"></p>
-                 <p th:errors="*{password}"></p>
+             <div class="form_block" th:object="${formAccount}">
+                <form action="#" th:action="@{/account/passwordUpdate}" method="post">
+                    <input type="hidden" name="protectionToken" value="${protectionToken}">
+                     <div class="form_title">
+                         <h3>パスワード</h3>
+                         <div class="form_input_area">
+                            <label class="ef">
+                                <input type="password" th:field="*{password}" class="form_input">
+                            </label>
+                         </div>
+                         <p th:errors="*{password}"></p>
+                     </div>
+                     <div>
+                         <h3>パスワード(再入力)</h3>
+                            <div class="form_input_area">
+                                <label class="ef">
+                                    <input type="password" th:field="*{passwordConfirm}" class="form_input">
+                                </label>
+                           </div>
+                         <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
+                     </div>
+                     <div class="submit_button_are">
+                        <input type="submit" value="更新" class="submit_button">
+                     </div>
+                 </form>
              </div>
-             <div>
-                 <label>パスワード(再入力)</label>
-                 <p><input type="password" th:field="*{passwordConfirm}"></p>
-                 <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
-             </div>
-             <input type="submit" value="保存">
-         </form>
+        </div>
      </div>
 </body>
 </html>
