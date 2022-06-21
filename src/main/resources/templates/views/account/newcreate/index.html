@@ -5,8 +5,12 @@
 <body>
     <div th:replace="views/common :: header_fragment"></div>
     <div class="form_box" th:object="${formAccountNewCreate}">
-        <span th:errors="*{email}"></span>
-        <span th:block th:if="${error != null}" th:text="${error}"></span>
+        <div class="error_message">
+            <p th:errors="*{email}"></p>
+        </div>
+        <div class="error_message" th:if="${error != null}">
+            <p th:text="${error}"></p>
+        </div>
         <form action="#" th:action="@{/accountNewCreate/checkEmail}" method="post">
             <div class="form_title">
                 <h3>登録するメールアドレスを入力してください</h3>

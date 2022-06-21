@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'アカウント新規作成', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account_new_create.css}"/>
 <body>
-    <h1>メール送信完了</h1>
-    <p>入力いただいたメールアドレスに</p>
-    <p>アカウント新規作成用URLをお送りしました。</p>
-    <a href="/accountNewCreate"  th:text="もう一度メールアドレスを入力する" th:href="@{/accountNewCreate}"></a>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="message_box">
+        <div class="message_area">
+            <div class="message_title">
+                <h1>メール送信完了</h1>
+            </div>
+            <div class="message">
+                <p>入力いただいたメールアドレスに<br>アカウント新規作成用URLをお送りしました。</p>
+            </div>
+        </div>
+        <div class="return_link">
+            <p><a href="/accountNewCreate"  th:text="もう一度メールアドレスを入力する" th:href="@{/accountNewCreate}"></a></p>
+        </div>
+    </div>
 </body>
 </html>
