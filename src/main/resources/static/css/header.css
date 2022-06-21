@@ -1,11 +1,12 @@
 body {
     padding-top: 90px; /* ヘッダーの後ろに要素が隠れないようにするため */
+    background-color: #A1C0EF
 }
 
 header {
     width: 100%; /* 幅いっぱいを指定 */
     height: 50px; /* 高さを50pxに指定 */
-    background: #CCC; /* 背景色にグレーを指定 */
+    background: #1a8cd8;
     padding: 20px 50px; /* ヘッダーに上下左右それぞれ余白を指定 */
     box-sizing: border-box; /* padding分を含んで幅を100%にするため */
     position: fixed; /* ウィンドウを基準に画面に固定 */
@@ -14,9 +15,23 @@ header {
     display: flex; /* 中の要素を横並びにする */
     align-items: center; /* 中の要素を上下中央に並べる */
 }
+header h1{
+    color:white;
+    text-shadow:1px 2px 3px #808080;
+    margin-left: 23%;
+}
+header h1 a{
+    text-decoration: none;
+    color: white;
+}
 
+header .gnav{
+    width: 100%;
+}
 header .gnav .menu {
     display: flex; /* 中の要素を横並びにする */
+    float: right;
+    margin-right:23%;
 }
 
 header .gnav .menu li {
@@ -27,6 +42,42 @@ header .gnav .menu li + li {
     margin-left: 40px; /* メニューそれぞれに間隔をあけるため */
 }
 
+header .gnav .menu li .menu_text{
+    line-height: 50px;
+}
+
 main {
     height: 100vw; /* スクロールの演出を見れるようにmainに高さを指定 */
+}
+
+
+header .gnav .menu .account_icon {
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+    background-color: #89baeb;
+    width: 1em;
+    height: 1em;
+    font-size: 40px;
+    overflow: hidden;
+    margin-top:10%;
+}
+header .gnav .menu .account_icon::before,
+header .gnav .menu .account_icon::after {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background-color: #3388dd;
+    content: "";
+}
+header .gnav .menu .account_icon::before {
+    top: 0.15em;
+    width: 0.4em;
+    height: 0.4em;
+}
+header .gnav .menu .account_icon::after {
+    bottom: -0.4em;
+    width: 0.8em;
+    height: 0.8em;
 }
