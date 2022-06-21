@@ -9,7 +9,9 @@
             <h2>アカウント設定</h2>
          </div>
          <div class="form_area">
-             <p th:if="${flush} != null" th:text="${flush}"></p>
+            <div class="flush_message" th:if="${flush} != null">
+                <p th:text="${flush}"></p>
+            </div>
              <div class="form_block" th:object="${formAccount}">
                  <form action="#" th:action="@{/account/emailCheck}" method="post">
                     <input type="hidden" name="protectionToken" value="${protectionToken}">

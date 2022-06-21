@@ -102,3 +102,14 @@ body {
 .message_box .return_link{
     text-align: center;
 }
+
+.flush_message{
+    height: 40px;
+    color: #ff5d92;
+    text-align: center;
+    padding-top: 1px;
+    font-size: 20px;
+}
+.flush_message p{
+    font-weight: bold;
+}
