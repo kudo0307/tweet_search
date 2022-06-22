@@ -12,8 +12,9 @@ public interface JpaConst {
 
 
     // 管理者権限
-    int ROLE_ADMIN = 1; // 管理者
     int ROLE_GENERAL = 0; // 一般
+    int ROLE_ADMIN = 1; // 管理者
+    int ROLE_GUEST = 2; // ゲスト
 
     // ワンタイムパスワードテーブル
     int OTP_TOKENAT_MINUTE = 15; // トークン期限作成時加算する分
