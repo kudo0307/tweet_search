@@ -5,7 +5,7 @@ public interface ForwardConst {
 
     // html
     // エラー画面
-    String ERR_UNKNOWN_PAGE = "views/error/unknown";
+    String ERR_UNKNOWN_PAGE = "error.html";
     String ERR_TOKEN_PAGE = "views/error/token-error";
 
     // ログイン画面
