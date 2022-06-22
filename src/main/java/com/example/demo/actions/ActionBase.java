@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.constants.JpaConst;
 import com.example.demo.models.Account;
-import com.example.demo.services.OnetimePasswordService;
+import com.example.demo.services.AccountService;
 
 @ControllerAdvice
 public abstract class ActionBase {
@@ -30,11 +30,16 @@ public abstract class ActionBase {
     @Autowired
     private MailSender sender;
     @Autowired
-    private OnetimePasswordService otpservice;
-
+    private AccountService acService;
     // デフォルトデータセット
     @ModelAttribute
     public void addDefaults(@AuthenticationPrincipal Account loginAccount,Model model) {
+
+        if(loginAccount == null) {
+            // sessionにログイン情報がない場合ゲストアカウントをログイン情報に格納
+            loginAccount = acService.getGuest();
+            acService.addAuth(loginAccount);
+        }
         // ログインデータセット
         model.addAttribute("loginAccount",loginAccount);
         // 管理者権限

@@ -5,11 +5,15 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.constants.JpaConst;
 import com.example.demo.models.Account;
 import com.example.demo.models.EmailUpdate;
 import com.example.demo.models.PasswordNewCreate;
@@ -23,33 +27,40 @@ import com.example.demo.utils.EncryptUtil;
 public class AccountService implements UserDetailsService{
 
     @Autowired
-    private AccountRepository repository;
+    private AccountRepository acRepository;
 
     // 件数を絞り込んだアカウントデータ取得
     // @return 件数を絞り込んだアカウントデータ
     public Page<Account> getAll(Pageable pageable){
-        return repository.findAccountData(pageable);
+        return acRepository.findAccountData(pageable);
     }
 
     // IDを元にアカウントデータを一件取得
     // @param id アカウントid
     // @return Accountデータ
     public Account getById(Integer id){
-        return repository.findByDeletedAtIsNullById(id);
+        return acRepository.findByDeletedAtIsNullById(id);
+    }
+
+    /* ゲストアカウントを取得
+     * @return ゲストアカウントデータ
+     */
+    public Account getGuest() {
+        return acRepository.findByDeletedAtIsNullANDFlagIs(JpaConst.ROLE_GUEST);
     }
 
     // メールアドレスを元にデータを取得
     // @param email メールアドレス
     // @return Accountデータ
     public Account getByEmail(String email) {
-        return repository.findByDeletedAtIsNullANDEmailIs(email);
+        return acRepository.findByDeletedAtIsNullANDEmailIs(email);
     }
 
     // アカウントデータを登録、更新する
     // @param アカウントデータ
     // @return 登録、更新したアカウントデータ
     public Account acSave(Account ac) {
-        return repository.save(ac);
+        return acRepository.save(ac);
     }
 
     // パスワード新規作成
@@ -118,7 +129,7 @@ public class AccountService implements UserDetailsService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account ac = new Account();
         try {
-            ac = repository.findByDeletedAtIsNullANDEmailIs(email);
+            ac = acRepository.findByDeletedAtIsNullANDEmailIs(email);
         }catch(Exception e) {
             // 取得時にExceptionが発生した場合
             throw new UsernameNotFoundException("It can not be acquired User");
@@ -130,5 +141,14 @@ public class AccountService implements UserDetailsService{
         }
 
         return (UserDetails)ac;
+    }
+
+    /* ログイン情報を格納する
+     * @param ac アカウント情報
+     */
+    public void addAuth(Account ac) {
+        UserDetails userDetail = loadUserByUsername(ac.getEmail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetail, userDetail.getPassword(), userDetail.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

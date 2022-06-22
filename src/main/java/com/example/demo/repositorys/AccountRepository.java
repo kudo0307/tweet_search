@@ -13,14 +13,18 @@ import com.example.demo.models.Account;
 public interface AccountRepository extends JpaRepository<Account,Integer> {
 
     // 削除されていないアカウントデータ取得
-    @Query(value="SELECT a FROM Account AS a WHERE a.deletedAt IS NULL ORDER BY a.id DESC")
+    @Query(value="SELECT ac FROM Account AS ac WHERE ac.deletedAt IS NULL ORDER BY ac.id DESC")
     Page<Account> findAccountData(Pageable pageable);
 
     // idを元に削除されていないアカウントデータを取得
-    @Query(value="SELECT a FROM Account AS a WHERE a.deletedAt IS NULL AND a.id = :id")
+    @Query(value="SELECT ac FROM Account AS ac WHERE ac.deletedAt IS NULL AND ac.id = :id")
     Account findByDeletedAtIsNullById(@Param("id") Integer id);
 
     // メールアドレスを元に削除されていないアカウントデータを取得
-    @Query(value="SELECT a FROM Account AS a WHERE a.deletedAt IS NULL AND a.email = :email")
+    @Query(value="SELECT ac FROM Account AS ac WHERE ac.deletedAt IS NULL AND ac.email = :email")
     Account findByDeletedAtIsNullANDEmailIs(String email);
+
+    // ゲストアカウントを取得
+    @Query(value="SELECT ac FROM Account AS ac WHERE ac.deletedAt IS NULL AND ac.adminFlag = :flag")
+    Account findByDeletedAtIsNullANDFlagIs(Integer flag);
 }

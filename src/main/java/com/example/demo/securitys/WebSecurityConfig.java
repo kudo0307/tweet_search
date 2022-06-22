@@ -23,9 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
-                            "/images/**",
                             "/css/**",
-                            "/javascript/**"
+                            "/js/**"
                             );
     }
 
@@ -36,7 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
+                /*
                 .authorizeRequests()
+
                     //「login.html」はログイン不要でアクセス可能に設定
                     .antMatchers("/login").permitAll()
                     // アカウント新規作成ページをログイン不要でアクセス可能に設定
@@ -45,7 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/passwordNewCreate/**").permitAll()
                     //上記以外は直リンク禁止
                     .anyRequest().authenticated()
+
                 .and()
+                */
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/tweetSearch")
