@@ -9,6 +9,7 @@ public interface MessageConst {
     // アカウント
     String ACCOUNT_ALREADY_EXISTS = "入力いただいたメールアドレスは既に登録されています";
     String ACCOUNT_NOT_EXISTS = "アカウントが登録されていません";
+    String ACCOUNT_DELETE = "アカウントを削除しました";
 
     // バリデーションエラーメッセージ
 

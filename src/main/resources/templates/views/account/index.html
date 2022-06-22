@@ -1,57 +1,50 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})">
-</head>
+<head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"/>
+<script th:src="@{/js/account.js}"></script>
 <body>
     <div th:replace="views/common :: header_fragment"></div>
-    <div id="wrapper">
-        <h2>アカウント　一覧</h2>
-        <table id="employee_list">
+    <div class="account_list_box">
+        <h2>アカウント一覧</h2>
+        <div class="flush_message" th:if="${flush} != null">
+            <p th:text="${flush}"></p>
+        </div>
+        <table class="account_list_area">
             <tbody>
-                <tr>
+                <tr class="account_list_title">
                     <th>ID</th>
-                    <th>アカウント名</th>
                     <th>メールアドレス</th>
+                    <th>作成日</th>
+                    <th></th>
                 </tr>
                 <tr th:each="account : ${accounts}">
-                    <td><a href="/account/edit.html"  th:text="${account.id}" th:href="@{/account/edit(id=${account.id})}"></a></td>
-                    <td th:text="${account.email}"></td>
+                    <th:block th:if="${account.id != loginAccount.id}">
+                        <td><a th:text="${account.id}" th:href="@{/account/edit(id=${account.id})}"></a></td>
+                        <td th:text="${account.email}"></td>
+                        <td th:text="${#temporals.format(account.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
+                        <td><a th:text="削除" th:href="@{/account/delete(id=${account.id})}" th:attr="onclick='return deleteCheck('+${account.id}+')'"></a></td>
+                    </th:block>
                 </tr>
             </tbody>
         </table>
-        <div>
-          <ul>
-            <li style="display:inline;">
-              <span th:if="${page.first}">&lt;&lt;前</span>
-              <a
-                th:if="${!page.first}"
-                th:href="@{/account/(page = ${page.number} - 1)}"
-              >
-                &lt;&lt;前
-              </a>
-            </li>
-            <li
-              th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-              style="display:inline; margin-left:10px;"
-            >
-              <span th:if="${i} == ${page.number}" th:text="${i + 1}">1</span>
-              <a
-                th:if="${i} != ${page.number}"
-                th:href="@{/account/(page = ${i})}"
-              >
-                <span th:text="${i+1}">1</span>
-              </a>
-            </li>
-            <li style="display:inline; margin-left:10px;">
-              <span th:if="${page.last}">次&gt;&gt;</span>
-              <a
-                th:if="${!page.last}"
-                th:href="@{/account/(page = (${page.number} + 1))}"
-              >
-                次&gt;&gt;
-              </a>
-            </li>
-          </ul>
+        <div class="pagination_box" th:fragment='paginationbar'>
+            <ul>
+                <li th:class="${page.first} ? 'disabled':''" style="display:inline">
+                    <span th:if="${page.first}"><<</span>
+                    <a th:if="${not page.first}" th:href="@{/account/(page=0)}"><<</a>
+                </li>
+                <li th:each='i : ${#numbers.sequence(0, page.totalPages-1)}' th:class="(${i}==${page.number})? 'active' : ''" style="display:inline">
+                    <span th:if='${i}==${page.number}' th:text='${i+1}'>1</span>
+                    <a th:if='${i}!=${page.number}' th:href="@{/account/(page=${i})}">
+                        <span th:text='${i+1}'>1</span>
+                    </a>
+                </li>
+                <li th:class="${page.last} ? 'disabled':''" style="display:inline">
+                    <span th:if="${page.last}">>></span>
+                    <a th:if="${not page.last}" th:href="@{/account/(page=(${page.totalPages}-1))}">>></a>
+                </li>
+            </ul>
         </div>
 </body>
 </html>

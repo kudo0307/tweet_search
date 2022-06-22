@@ -103,6 +103,14 @@ public class AccountService implements UserDetailsService{
 
     }
 
+    /* アカウントデータ削除
+     * @param ac 削除対象アカウントデータ
+     */
+    public void delete(Account ac) {
+        ac.setDeletedAt(LocalDateTime.now()); // 削除日をセット
+        acSave(ac);
+    }
+
     // ログインアカウント検索
     // @param email メールアドレス
     // @return spring securityのログインユーザーインスタンス

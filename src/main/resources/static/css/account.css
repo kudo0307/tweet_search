@@ -113,3 +113,41 @@ body {
 .flush_message p{
     font-weight: bold;
 }
+.account_list_box h2{
+    color:white;
+    text-shadow:1px 2px 3px #808080;
+}
+.account_list_box .flush_message{
+    height:auto;
+    color: #ff5d92;
+    text-align: center;
+    font-size: 20px;
+}
+.account_list_area{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+.account_list_area .account_list_title{
+    color:white;
+    text-shadow:1px 2px 3px #808080;
+}
+
+.account_list_area tr{
+  border-bottom: solid 1px #eee;
+  cursor: pointer;
+}
+
+.account_list_area tr:hover{
+  background-color: #d4f0fd;
+}
+
+.account_list_area th,table td{
+  text-align: center;
+  width: 25%;
+  padding: 15px 0;
+}
+
+.pagination_box{
+    text-align: center;
+}

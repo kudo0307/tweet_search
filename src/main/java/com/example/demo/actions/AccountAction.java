@@ -70,6 +70,24 @@ public class AccountAction extends ActionBase {
         return ForwardConst.ACCOUNT_INDEX_PAGE;
     }
 
+    @GetMapping("/account/delete")
+    public String delete(@AuthenticationPrincipal Account loginAccount,@RequestParam(name = "id")Integer id,Model model,RedirectAttributes redirectAttributes) {
+        // 管理者権限チェック
+        if(!checkAdmin(loginAccount)) {
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
+
+        // 対象のidでデータを取得
+        Account deleteAc = acService.getById(id);
+        // 自分自身は削除できないようにする
+        if(deleteAc != null &&deleteAc.getId() != loginAccount.getId()) {
+            acService.delete(deleteAc); // データを削除
+            // 削除完了メッセージ
+            redirectAttributes.addFlashAttribute("flush",MessageConst.ACCOUNT_DELETE);
+        }
+        return "redirect:/account";
+    }
+
     // アカウント編集画面
     @GetMapping("/account/edit")
     public String edit(@ModelAttribute @Validated(EditData.class) FormAccount fac,BindingResult result ,Model model,@AuthenticationPrincipal Account loginAccount) {
