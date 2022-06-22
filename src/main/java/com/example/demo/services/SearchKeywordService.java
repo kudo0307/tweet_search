@@ -30,6 +30,15 @@ public class SearchKeywordService {
         return srkSave(saveSrk);// 登録
     }
 
+    /* 検索キーワードidとアカウントデータを元に検索キーワードデータを取得
+     * @param id 検索キーワードid
+     * @param ac アカウントデータ
+     * @return 検索キーワードデータ
+     */
+    public SearchKeyword getKeyword(Integer id, Integer acId) {
+        return srkRepository.findByIdIsAndAcIs(id,acId);
+    }
+
     // 検索キーワードテーブルへデータ登録、更新する
     // @param srk 検索キーワードデータ
     // @return 登録、更新した検索キーワードデータ

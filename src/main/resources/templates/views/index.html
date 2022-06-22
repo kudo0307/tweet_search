@@ -24,10 +24,11 @@
             <iframe width="560" height="315" th:src="${twitter.videoUrl}+'&playsinline=0&autoplay=muted'" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
-    <div class="next_btn_erea" th:if="${next_token != null&&!next_token.isBlank()}">
+    <div class="next_btn_erea" th:if="${nextToken != null&&!nextToken.isBlank()}">
         <form action="#" th:action="@{/tweetSearch}" method="GET">
             <input type="hidden" name="query" th:value="${query}">
-            <input type="hidden" name="next_token" th:value="${next_token}">
+            <input type="hidden" name="nextToken" th:value="${nextToken}">
+            <input th:if="${searchId != null}" type="hidden" name="searchId" th:value="${searchId}">
             <div class="next_btn_erea">
                 <input type="submit" value="次へ" class="next_btn">
             </div>

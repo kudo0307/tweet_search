@@ -41,7 +41,7 @@ public class TweetAction {
     @Autowired
     private SearchResultService srtService;
     @RequestMapping("/tweetSearch")
-    public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String next_token,@AuthenticationPrincipal Account loginAccount,Model model) throws IOException, URISyntaxException {
+    public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String nextToken,@RequestParam(required = false) Integer searchId,@AuthenticationPrincipal Account loginAccount,Model model) throws IOException, URISyntaxException {
 
         // ツイートデータリスト
         List<TweetData> tweetDataList = new ArrayList<>();
@@ -54,7 +54,7 @@ public class TweetAction {
             */
             String searchTarget = query + "& -is:retweet has:videos";
             // ツイートデータ取得
-            String response = search(searchTarget, next_token ,CommonConst.BEARER_TOKEN);
+            String response = search(searchTarget, nextToken ,CommonConst.BEARER_TOKEN);
 
             // mapper
             ObjectMapper mapper = new ObjectMapper();
@@ -63,22 +63,31 @@ public class TweetAction {
             // ツイートデータを取得できたか判定
             if(json!= null &&json.get("meta").get("result_count").asInt()!=0) {
                 // 取得できなかったデータの続きを取得するためのトークン
-                next_token = json.get("meta").get("next_token").asText();
+                nextToken = json.get("meta").get("next_token").asText();
                 // ツイートデータリスト生成
                 tweetDataList = TweetConverter.jsonNodeToTweetList(json);
             }
-
-            // 検索キーワードを登録
-            SearchKeyword saveSrk = srkService.create(loginAccount,query);
+            SearchKeyword srk = new SearchKeyword();
+            if(nextToken != null&&searchId !=null) {
+                // 検索キーワードidとログインアカウントidを元に検索キーワードデータを取得
+                SearchKeyword getSrk = srkService.getKeyword(searchId,loginAccount.getId());
+                if(getSrk !=null) {
+                    // データがあれば上書き
+                    srk = getSrk;
+                }
+            }else {
+                // 検索キーワードを登録
+                srk = srkService.create(loginAccount,query);
+            }
             // 検索結果を登録
-            srtService.create(tweetDataList, saveSrk);
-
+            srtService.create(tweetDataList, srk);
+            model.addAttribute("searchId",srk.getId());
 
 
         }
         model.addAttribute("twitters",tweetDataList); // ツイートリスト
         model.addAttribute("query",query); // 検索キーワード
-        model.addAttribute("next_token",next_token);
+        model.addAttribute("nextToken",nextToken);
         // 画面遷移
         return "views/index.html";
     }
