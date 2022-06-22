@@ -94,7 +94,7 @@ public class AccountAction extends ActionBase {
     @GetMapping("/account/edit")
     public String edit(@ModelAttribute @Validated(EditData.class) FormAccount fac,BindingResult result ,Model model,@AuthenticationPrincipal Account loginAccount) {
 
-        if(result.hasErrors()) {
+        if(result.hasErrors()|| loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
             // エラー画面へ
             return ForwardConst.ERR_UNKNOWN_PAGE;
         }
@@ -132,6 +132,11 @@ public class AccountAction extends ActionBase {
     // メールアドレスチェック
     @PostMapping("/account/emailCheck")
     public String emailCheck(@ModelAttribute @Validated(EmailUpdateData.class) FormAccount fac,BindingResult result,Model model,@AuthenticationPrincipal Account loginAccount) {
+
+        if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
+            // エラー画面へ
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
 
         if(result.hasErrors()) {
             // アカウント編集画面へ
@@ -172,14 +177,18 @@ public class AccountAction extends ActionBase {
         return "redirect:/account/updateEmailSendMail";
     }
     @RequestMapping("/account/updateEmailSendMail")
-    public String updateEmailSendMail() {
+    public String updateEmailSendMail(@AuthenticationPrincipal Account loginAccount) {
+        if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
+            // エラー画面へ
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
         return ForwardConst.ACCOUNT_EDIT_EMAIL_SEND_MAIL;
     }
 
     // メールアドレス更新
     @GetMapping("/account/emailUpdate")
-    public String emailUpdate(@ModelAttribute @Validated(CreateData.class) OnetimePassword otp ,BindingResult result ,Model model) {
-        if(result.hasErrors()) {
+    public String emailUpdate(@ModelAttribute @Validated(CreateData.class) OnetimePassword otp ,BindingResult result ,Model model,@AuthenticationPrincipal Account loginAccount) {
+        if(result.hasErrors()||loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
             // エラー画面へ
             return ForwardConst.ERR_UNKNOWN_PAGE;
         }
@@ -216,13 +225,22 @@ public class AccountAction extends ActionBase {
         return "redirect:/account/updateEmailComplete";
     }
     @RequestMapping("/account/updateEmailComplete")
-    public String updateEmailComplete() {
+    public String updateEmailComplete(@AuthenticationPrincipal Account loginAccount) {
+        if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
+            // エラー画面へ
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
         return ForwardConst.ACCOUNT_UPDATE_EMAIL;
     }
 
     // パスワード更新
     @PostMapping("/account/passwordUpdate")
-    public String passwordCheck(@ModelAttribute @Validated(PasswordUpdateData.class) FormAccount fac,BindingResult result ,@RequestParam(name = "protectionToken")String protectionToken,Model model,RedirectAttributes redirectAttributes) {
+    public String passwordCheck(@ModelAttribute @Validated(PasswordUpdateData.class) FormAccount fac,BindingResult result ,@RequestParam(name = "protectionToken")String protectionToken,Model model,RedirectAttributes redirectAttributes,@AuthenticationPrincipal Account loginAccount) {
+        if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
+            // エラー画面へ
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
+
         // sessionからアカウントデータを取得
         Account ac = (Account) session.getAttribute("account");
         if(ac == null) {

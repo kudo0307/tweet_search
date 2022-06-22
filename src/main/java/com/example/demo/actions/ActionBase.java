@@ -44,6 +44,8 @@ public abstract class ActionBase {
         model.addAttribute("loginAccount",loginAccount);
         // 管理者権限
         model.addAttribute("roleAdmin",JpaConst.ROLE_ADMIN);
+        // ゲスト権限
+        model.addAttribute("roleGuest",JpaConst.ROLE_GUEST);
     }
 
     // 管理者権限チェック

@@ -12,7 +12,7 @@
         <ul class="menu">
             <li th:if="${loginAccount != null}"><a href="/tweetSearch"  th:href="@{/tweetSearch}" class="menu_text">Tweet検索</a></li>
             <li th:if="${loginAccount != null && loginAccount.adminFlag == roleAdmin}"><a href="/account"  th:text="アカウント一覧画面へ" th:href="@{/account}" class="menu_text"></a></li>
-            <li th:if="${loginAccount != null}"><a href="/account/edit" th:href="@{/account/edit(id=${loginAccount.id})}"><span class="account_icon"></span></a></li>
+            <li th:if="${loginAccount != null && loginAccount.adminFlag != roleGuest}"><a href="/account/edit" th:href="@{/account/edit(id=${loginAccount.id})}"><span class="account_icon"></span></a></li>
         </ul>
     </nav>
 </header>
