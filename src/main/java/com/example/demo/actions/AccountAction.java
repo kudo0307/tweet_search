@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,8 +124,6 @@ public class AccountAction extends ActionBase {
 
         // sessionへAccountデータを格納
         session.setAttribute("account", ac);
-        // sessionへ二重送信防止用トークンを格納
-        session.setAttribute("protectionToken", protectionToken);
 
         // アカウント編集画面へ
         return ForwardConst.ACCOUNT_EDIT_PAGE;
@@ -131,13 +131,7 @@ public class AccountAction extends ActionBase {
 
     // メールアドレスチェック
     @PostMapping("/account/emailCheck")
-    public String emailCheck(@ModelAttribute @Validated(EmailUpdateData.class) FormAccount fac,BindingResult result ,@RequestParam(name = "protectionToken")String protectionToken,Model model,@AuthenticationPrincipal Account loginAccount) {
-
-        // 二重送信チェック
-        if(session.getAttribute("protectionToken") == null ||session.getAttribute("protectionToken").toString().equals(protectionToken)) {
-            // エラー画面へ
-            return ForwardConst.ERR_UNKNOWN_PAGE;
-        }
+    public String emailCheck(@ModelAttribute @Validated(EmailUpdateData.class) FormAccount fac,BindingResult result,Model model,@AuthenticationPrincipal Account loginAccount) {
 
         if(result.hasErrors()) {
             // アカウント編集画面へ
@@ -171,12 +165,14 @@ public class AccountAction extends ActionBase {
 
         // セッションからアカウントデータを削除
         session.removeAttribute("account");
-        // sessionからトークン削除
-        session.removeAttribute("protectionToken");
 
         // アカウントIDをセット
         model.addAttribute("id",saveEmu.getAc().getId());
         // メール送信画面
+        return "redirect:/account/updateEmailSendMail";
+    }
+    @RequestMapping("/account/updateEmailSendMail")
+    public String updateEmailSendMail() {
         return ForwardConst.ACCOUNT_EDIT_EMAIL_SEND_MAIL;
     }
 
@@ -217,6 +213,10 @@ public class AccountAction extends ActionBase {
         SecurityContextHolder.clearContext();
 
         // メールアドレス更新完了画面
+        return "redirect:/account/updateEmailComplete";
+    }
+    @RequestMapping("/account/updateEmailComplete")
+    public String updateEmailComplete() {
         return ForwardConst.ACCOUNT_UPDATE_EMAIL;
     }
 
@@ -240,6 +240,10 @@ public class AccountAction extends ActionBase {
 
         // パスワード更新
         Account saveAc = acService.passwordUpdate(ac, fac.getPassword());
+
+        // sessionのログイン情報を更新する
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication((Authentication) saveAc);
 
         // 更新完了メッセージ
         redirectAttributes.addFlashAttribute("flush",MessageConst.PASSWORD_UPDATE);
