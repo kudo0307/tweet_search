@@ -40,6 +40,9 @@ public class TweetAction {
     private SearchKeywordService srkService;
     @Autowired
     private SearchResultService srtService;
+    @Autowired
+    private TweetConverter twConverter;
+
     @RequestMapping("/tweetSearch")
     public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String nextToken,@RequestParam(required = false) Integer searchId,@AuthenticationPrincipal Account loginAccount,Model model) throws IOException, URISyntaxException {
 
@@ -65,7 +68,7 @@ public class TweetAction {
                 // 取得できなかったデータの続きを取得するためのトークン
                 nextToken = json.get("meta").get("next_token").asText();
                 // ツイートデータリスト生成
-                tweetDataList = TweetConverter.jsonNodeToTweetList(json);
+                tweetDataList = twConverter.jsonNodeToTweetList(json);
             }
             SearchKeyword srk = new SearchKeyword();
             if(nextToken != null&&searchId !=null) {

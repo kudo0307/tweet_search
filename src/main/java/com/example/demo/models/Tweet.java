@@ -5,36 +5,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-// 検索結果データのDTOモデル
+// ツイートテーブルのDTOモデル
+@Table(name="tweet")
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="search_result")
-public class SearchResult {
+public class Tweet {
+
 
     // id
     @Id
-    @Column(name = "srt_id")
+    @Column(name = "twe_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // ツイートテーブル
-    @ManyToOne
-    @JoinColumn(name="srt_twe_id")
-    private Tweet twe;
+    // ツイートID
+    @Column(name="twe_tweet_id",nullable=false,unique=true)
+    private long tweetId;
 
-    // 検索キーワードid
-    @ManyToOne
-    @JoinColumn(name="srt_srk_id")
-    private SearchKeyword srk;
+    // 動画URL
+    @Column(name="twe_video_url", length=255)
+    private String videoUrl;
 }
-

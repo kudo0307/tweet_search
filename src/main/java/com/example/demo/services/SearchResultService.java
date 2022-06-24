@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.SearchKeyword;
 import com.example.demo.models.SearchResult;
+import com.example.demo.models.Tweet;
 import com.example.demo.models.TweetData;
 import com.example.demo.repositorys.SearchResultRepository;
 
@@ -19,7 +20,6 @@ public class SearchResultService {
     /* 検索結果テーブルへデータ登録
      * @param tweetDataList ツイートデータリスト
      * @param srk 検索キーワードデータ
-     * @return 登録した検索キーワードデータ
      * */
     public void create(List<TweetData> tweetDataList ,SearchKeyword srk) {
 
@@ -30,7 +30,8 @@ public class SearchResultService {
         }
         for(TweetData tweetData:tweetDataList) {
             SearchResult saveSrt = new SearchResult();
-            saveSrt.setTweetId(tweetData.getId()); // ツイートIDセット
+            Tweet twe = new Tweet();
+            saveSrt.setTwe(tweetData.getTwe()); // ツイートデータセット
             saveSrt.setSrk(srk); // 検索キーワードデータセット
             srtSave(saveSrt); // 登録
         }
