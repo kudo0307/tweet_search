@@ -23,8 +23,4 @@ public interface JpaConst {
     int ONETIME_PASS_INT = 10;
     // ワンタイムパスワード生成用文字列
     String ONETIME_PASS_STR = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-    // ゲストアカウント
-    String GUEST_EMAIL = "test@gmail.com";
-    String GUEST_PASSWORD = "12345678";
 }
