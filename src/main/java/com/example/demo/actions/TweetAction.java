@@ -27,7 +27,7 @@ import com.example.demo.actions.views.TweetConverter;
 import com.example.demo.constants.CommonConst;
 import com.example.demo.models.Account;
 import com.example.demo.models.SearchKeyword;
-import com.example.demo.models.TweetData;
+import com.example.demo.models.form.TweetData;
 import com.example.demo.services.SearchKeywordService;
 import com.example.demo.services.SearchResultService;
 import com.fasterxml.jackson.databind.JsonNode;

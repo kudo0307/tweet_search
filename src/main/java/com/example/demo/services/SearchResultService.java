@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.models.SearchKeyword;
 import com.example.demo.models.SearchResult;
 import com.example.demo.models.Tweet;
-import com.example.demo.models.TweetData;
+import com.example.demo.models.form.TweetData;
 import com.example.demo.repositorys.SearchResultRepository;
 
 @Service
