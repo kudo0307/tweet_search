@@ -3,7 +3,16 @@ package com.example.demo.actions.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.models.TweetData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import com.example.demo.models.Account;
+import com.example.demo.models.Favorite;
+import com.example.demo.models.Tweet;
+import com.example.demo.models.form.TweetData;
+import com.example.demo.services.FavoriteService;
+import com.example.demo.services.TweetService;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import twitter4j.MediaEntity;
@@ -13,12 +22,19 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
+@Component
 public class TweetConverter {
+
+    @Autowired
+    private FavoriteService fvtService;
+    @Autowired
+    private TweetService tweService;
+
     /*ツイートデータのリスト生成
      * @param json ツイートデータのJsonNode
      * @return tweetDataList ツイートデータリスト
      * */
-    public static List<TweetData> jsonNodeToTweetList(JsonNode json) {
+    public List<TweetData> jsonNodeToTweetList(JsonNode json) {
         List<TweetData> tweetDataList = new ArrayList<>(); // ツイートデータリスト
 
         // Twitterオブジェクト生成
@@ -38,15 +54,17 @@ public class TweetConverter {
      * @param id ツイートid
      * @return tweetData  ツイートデータ
      */
-    public static TweetData tweetIdToTweetData(long id){
+    public TweetData tweetIdToTweetData(long id){
         TweetData tweetData = new TweetData(); // ツイートデータ
         try {
             Twitter twitter = new TwitterFactory().getSingleton();
             Status twStatus = twitter.showStatus(id);
-            tweetData.setId(twStatus.getId()); // ツイートidをセット
             tweetData.setText(twStatus.getText()); // ツイート本文をセット
-            for (MediaEntity mediaEntity : twStatus.getMediaEntities()) {
 
+            Tweet twe = new Tweet();
+            for (MediaEntity mediaEntity : twStatus.getMediaEntities()) {
+                twe.setUrl(mediaEntity.getExpandedURL()); // ツイートURLセット
+                tweetData.setUrl(mediaEntity.getExpandedURL()); // ツイートURLセット
                 // 動画URL取得
                 for(Variant variant : mediaEntity.getVideoVariants()) {
                     // 動画URLか判定
@@ -54,6 +72,23 @@ public class TweetConverter {
                         tweetData.setVideoUrl(variant.getUrl()); // 動画URLセット
                     }
                 }
+            }
+            twe.setTweetId(twStatus.getId()); // ツイートIDセット
+            twe.setVideoUrl(tweetData.getVideoUrl()); // 動画URLセット
+
+            // ツイートテーブルにデータを登録して、登録データをtweetDataにセット
+            tweetData.setTwe(tweService.create(twe));
+
+            // ログインアカウントを取得
+            Account loginAccount = (Account)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            // お気に入りデータ取得
+            Favorite fvt = fvtService.search(id, loginAccount.getId());
+            if(fvt!=null) {
+                tweetData.setFavoriteFlag(fvt.isFlag()); // お気に入りフラグセット
+            }else {
+                // お気に入りデータが存在しない場合flagはfalseに
+                tweetData.setFavoriteFlag(false);
             }
         } catch (TwitterException e) {
             e.printStackTrace();

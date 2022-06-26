@@ -15,6 +15,8 @@ public class TweetData {
 
     private String text; // ツイート本文
 
+    private String url; // ツイートurl
+
     private String videoUrl; // 動画url
 
     private boolean favoriteFlag; // お気に入りフラグ true : お気に入り , false : お気に入り解除

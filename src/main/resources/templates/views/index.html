@@ -4,6 +4,8 @@
 </head>
 <script type="text/javascript" src="https://platform.twitter.com/widgets.js" th:src="@{https://platform.twitter.com/widgets.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/tweet.css}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script th:src="@{/js/tweet.js}"></script>
 <body>
     <div th:replace="views/common :: header_fragment"></div>
     <div class="search_box">
@@ -13,6 +15,8 @@
                    <input type="text" name="query" th:value="${query}" placeholder="検索キーワードを入力してください" autofocus="autofocus">
                 </label>
             </div>
+            <div class="description_text" th:if="${loginAccount.adminFlag == roleGuest}">※ログインをすると動画をお気に入り登録できます。</div>
+            <div class="description_text" th:if="${loginAccount.adminFlag != roleGuest}">※ハートボタンを押すと動画をお気に入り登録できます。</div>
             <input type="submit" value="検索" class="submit_button">
         </form>
     </div>
@@ -22,6 +26,19 @@
     <div class="tweet_box">
         <div class="tweet_area" th:each="twitter : ${twitters}">
             <iframe width="560" height="315" th:src="${twitter.videoUrl}+'&playsinline=0&autoplay=muted'" frameborder="0" allowfullscreen></iframe>
+            <div class="nav">
+                <div class="favorite_box">
+                    <form th:action="@{/favorite/save}" method="POST">
+                        <div th:if="${loginAccount.adminFlag != roleGuest}" class="favorite_btn" th:id="'tweet_id_' + ${twitter.twe.tweetId}" th:data-id="${twitter.twe.tweetId}" >
+                            <div class="heart" th:classappend="${twitter.favoriteFlag!=null&&!twitter.favoriteFlag} ? non_display"><label>&#128151;</label></div>
+                            <div class="non_heart" th:classappend="${twitter.favoriteFlag!=null&&twitter.favoriteFlag} ? non_display"><label>&#9825;</label></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tweet_display_box">
+                    <a th:href="${twitter.url}" th:text="ツイートを表示"></a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="next_btn_erea" th:if="${nextToken != null&&!nextToken.isBlank()}">

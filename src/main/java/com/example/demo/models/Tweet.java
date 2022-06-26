@@ -29,6 +29,10 @@ public class Tweet {
     @Column(name="twe_tweet_id",nullable=false,unique=true)
     private long tweetId;
 
+    // ツイートURL
+    @Column(name="twe_url", length=255,nullable=false)
+    private String url;
+
     // 動画URL
     @Column(name="twe_video_url", length=255)
     private String videoUrl;

@@ -19,7 +19,8 @@ body {
 
 .query_iptxt {
     position: relative;
-    margin: 40px 3%;
+    margin-top: 40px;
+    z-index: 1;
 }
 .query_iptxt input[type='text'] {
     font: 15px/24px sans-serif;
@@ -45,6 +46,7 @@ body {
     background: #1A8CD8;
     color: #ffffff;
     width: 200px;
+    margin-top: 4%;
 }
 
 .submit_button:hover {
@@ -102,4 +104,18 @@ body {
 }
 .next_btn_erea .next_btn:hover:after {
     border-color: #FFF;
+}
+.tweet_display_box{
+    display:inline-block;
+}
+.favorite_box{
+    display:inline-block;
+    font-size: 18px;
+    text-align: left;
+}
+.description_text{
+    text-align: left;
+}
+.non_display{
+    display:none;
 }
