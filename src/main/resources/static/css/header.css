@@ -15,6 +15,7 @@ header {
     display: flex; /* 中の要素を横並びにする */
     align-items: center; /* 中の要素を上下中央に並べる */
     min-width: 1200px;
+    z-index: 9999;
 }
 header h1{
     color:white;
