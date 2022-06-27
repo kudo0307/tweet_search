@@ -2,6 +2,7 @@
 <html lang="ja">
 <head th:replace="views/common :: head_fragment(title = 'アカウント編集', scripts = ~{::script}, links = ~{::link})"></head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/pagination.css}"/>
 <script th:src="@{/js/account.js}"></script>
 <body>
     <div th:replace="views/common :: header_fragment"></div>
@@ -28,23 +29,15 @@
                 </tr>
             </tbody>
         </table>
-        <div class="pagination_box" th:fragment='paginationbar'>
-            <ul>
-                <li th:class="${page.first} ? 'disabled':''" style="display:inline">
-                    <span th:if="${page.first}"><<</span>
-                    <a th:if="${not page.first}" th:href="@{/account/(page=0)}"><<</a>
-                </li>
-                <li th:each='i : ${#numbers.sequence(0, page.totalPages-1)}' th:class="(${i}==${page.number})? 'active' : ''" style="display:inline">
-                    <span th:if='${i}==${page.number}' th:text='${i+1}'>1</span>
-                    <a th:if='${i}!=${page.number}' th:href="@{/account/(page=${i})}">
-                        <span th:text='${i+1}'>1</span>
-                    </a>
-                </li>
-                <li th:class="${page.last} ? 'disabled':''" style="display:inline">
-                    <span th:if="${page.last}">>></span>
-                    <a th:if="${not page.last}" th:href="@{/account/(page=(${page.totalPages}-1))}">>></a>
-                </li>
-            </ul>
-        </div>
+         <nav class="pagination" th:fragment='paginationbar' th:if="${accounts != null and accounts.size() > 0}">
+          <div class="nav-links">
+            <a class="first page-numbers" th:if="${not page.first}" th:href="@{/account/(page=0)}">&laquo;</a>
+            <th:block  th:each='i : ${#numbers.sequence(0, page.totalPages-1)}'>
+              <a th:if="${i != page.number}" class="page-numbers" th:href="@{${'/account'}(page=${i})}" th:text='${i+1}'></a>
+              <span th:if="${i == page.number}" aria-current="page" class="page-numbers current" th:text='${i+1}'></span>
+            </th:block>
+            <a  th:if="${not page.last}" class="last page-numbers" th:href="@{${'/account'}(page=(${page.totalPages} -1))}">&raquo;</a>
+          </div>
+        </nav>
 </body>
 </html>
