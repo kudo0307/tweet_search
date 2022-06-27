@@ -3,6 +3,8 @@ package com.example.demo.services;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Account;
@@ -54,6 +56,14 @@ public class FavoriteService {
         return fvtRepository.find(id, accountId);
     }
 
+    /* アカウントIDを元にお気に入りデータを取得
+     * @param pageable ページネーション
+     * @param accountId アカウントID
+     * @return favList お気に入りデータのリスト
+     */
+    public Page<Favorite> getList(Pageable pageable,Integer accountId){
+        return fvtRepository.list(pageable,accountId);
+    }
     /* お気に入りテーブルへデータ登録、更新する
      *  @param fvt お気に入りデータ
      *  @return 登録、更新したお気に入りデータ

@@ -33,9 +33,6 @@ public interface ForwardConst {
     String PASSWORD_NEW_CREATE_COMPLETE = "views/password/complete";
     String PASSWORD_NEW_CREATE_SEND_MAIL = "views/password/send-mail";
 
-
-
-
-
-
+    // お気に入り
+    String FAVORITE_LIST = "views/favorite/list";
 }

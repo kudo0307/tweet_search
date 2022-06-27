@@ -5,6 +5,11 @@ body {
     margin:0 auto;
     background-color: #A1C0EF
 }
+.box_title{
+    text-align: center;
+    color:white;
+    text-shadow:1px 2px 3px #808080;
+}
 .flex {
     display: flex; /* これで横並びになる */
 }

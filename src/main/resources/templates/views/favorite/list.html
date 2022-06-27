@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="views/common :: head_fragment(title = 'TweetSearch', scripts = ~{::script}, links = ~{::link})">
+</head>
+<script type="text/javascript" src="https://platform.twitter.com/widgets.js" th:src="@{https://platform.twitter.com/widgets.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/tweet.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/pagination.css}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script th:src="@{/js/tweet.js}"></script>
+<body>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="tweet_box">
+         <div class="box_title">
+            <h2 th:if="${favorites != null and favorites.size() > 0}">お気に入り</h2>
+            <h2 th:if="${favorites == null || favorites.size() <= 0}">お気に入り登録している動画はありません</h2>
+         </div>
+        <div class="tweet_area" th:each="favorite : ${favorites}">
+            <iframe width="560" height="315" th:src="${favorite.twe.videoUrl}+'&playsinline=0&autoplay=muted'" frameborder="0" allowfullscreen></iframe>
+            <div class="nav">
+                <div class="favorite_box">
+                    <form th:action="@{/favorite/save}" method="POST">
+                        <div th:if="${loginAccount.adminFlag != roleGuest}" class="favorite_btn" th:id="'tweet_id_' + ${favorite.twe.tweetId}" th:data-id="${favorite.twe.tweetId}" >
+                            <div class="heart"><label>&#128151;</label></div>
+                            <div class="non_heart non_display"><label>&#9825;</label></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tweet_display_box">
+                    <a th:href="${favorite.twe.url}" th:text="ツイートを表示"></a>
+                </div>
+            </div>
+        </div>
+        <nav class="pagination" th:fragment='paginationbar' th:if="${favorites != null and favorites.size() > 0}">
+          <div class="nav-links">
+            <a class="first page-numbers" th:if="${not page.first}" th:href="@{/favorite/(page=0)}">&laquo;</a>
+            <th:block  th:each='i : ${#numbers.sequence(0, page.totalPages-1)}'>
+              <a th:if="${i != page.number}" class="page-numbers" th:href="@{${'/favorite'}(page=${i})}" th:text='${i+1}'></a>
+              <span th:if="${i == page.number}" aria-current="page" class="page-numbers current" th:text='${i+1}'></span>
+            </th:block>
+            <a  th:if="${not page.last}" class="last page-numbers" th:href="@{${'/favorite'}(page=(${page.totalPages} -1))}">&raquo;</a>
+          </div>
+        </nav>
+    </div>
+</body>
+</html>
