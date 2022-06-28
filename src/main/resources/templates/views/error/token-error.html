@@ -14,7 +14,17 @@
             </div>
         </div>
         <div class="return_link">
-            <p><a href="/accountNewCreate"  th:text="アカウント新規作成ページへ" th:href="@{/accountNewCreate}"></a></p>
+            <p>
+            <th:block th:if="${pageStatus == 'accountNewCreate'}">
+                <a th:text="アカウント新規作成画面へ" th:href="@{/accountNewCreate}"></a>
+            </th:block>
+            <th:block th:if="${pageStatus == 'accountEdit' && id != null}">
+                <a th:text="アカウント編集画面へ" th:href="@{/account/edit(id=${id})}"></a>
+            </th:block>
+            <th:block th:if="${pageStatus == 'passwordNewCreate'}">
+                <a th:text="パスワード再発行画面へ" th:href="@{/passwordNewCreate}"></a>
+            </th:block>
+            </p>
         </div>
     </div>
 </body>

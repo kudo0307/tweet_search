@@ -112,6 +112,8 @@ public class PasswordNewCreateAction extends ActionBase {
             // データ取得
             // 有効期限のチェック
             if(pnc.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
+                // リンク先切り替え用ステータスをセット
+                model.addAttribute("pageStatus","passwordNewCreate");
                 // 有効期限が過ぎていたら
                 return ForwardConst.ERR_TOKEN_PAGE;
             }
@@ -142,6 +144,8 @@ public class PasswordNewCreateAction extends ActionBase {
 
         // 有効期限のチェック
         if(pnc.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
+            // リンク先切り替え用ステータスをセット
+            model.addAttribute("pageStatus","passwordNewCreate");
             // 有効期限が過ぎていたら
             return ForwardConst.ERR_TOKEN_PAGE;
         }

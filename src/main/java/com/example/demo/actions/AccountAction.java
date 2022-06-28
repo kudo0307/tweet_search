@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.actions.views.AccountConverter;
-import com.example.demo.constants.CommonConst;
 import com.example.demo.constants.ForwardConst;
 import com.example.demo.constants.JpaConst;
 import com.example.demo.constants.MessageConst;
@@ -116,10 +115,6 @@ public class AccountAction extends ActionBase {
 
         model.addAttribute("formAccount", AccountConverter.toForm(ac));
 
-        // 二重送信防止用トークン
-        String protectionToken = randomString(CommonConst.PROTECTION_TOKEN_INT,CommonConst.PROTECTION_TOKEN_STR);
-        model.addAttribute("protectionToken",protectionToken);
-
         // sessionへAccountデータを格納
         session.setAttribute("account", ac);
 
@@ -129,7 +124,7 @@ public class AccountAction extends ActionBase {
 
     // メールアドレスチェック
     @PostMapping("/account/emailCheck")
-    public String emailCheck(@ModelAttribute @Validated(EmailUpdateData.class) FormAccount fac,BindingResult result,Model model,@AuthenticationPrincipal Account loginAccount) {
+    public String emailCheck(@ModelAttribute @Validated(EmailUpdateData.class) FormAccount fac,BindingResult result,Model model,@AuthenticationPrincipal Account loginAccount,RedirectAttributes redirectAttributes) {
 
         if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
             // エラー画面へ
@@ -170,12 +165,13 @@ public class AccountAction extends ActionBase {
         session.removeAttribute("account");
 
         // アカウントIDをセット
-        model.addAttribute("id",saveEmu.getAc().getId());
+        redirectAttributes.addAttribute("id",saveEmu.getAc().getId());
         // メール送信画面
         return "redirect:/account/updateEmailSendMail";
     }
     @RequestMapping("/account/updateEmailSendMail")
-    public String updateEmailSendMail(@AuthenticationPrincipal Account loginAccount) {
+    public String updateEmailSendMail(@RequestParam("id") Integer id ,Model model,@AuthenticationPrincipal Account loginAccount) {
+        model.addAttribute("id",id);
         if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
             // エラー画面へ
             return ForwardConst.ERR_UNKNOWN_PAGE;
@@ -202,6 +198,11 @@ public class AccountAction extends ActionBase {
             // データ取得
             // 有効期限のチェック
             if(emu.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
+
+                // リンク先切り替え用ステータスをセット
+                model.addAttribute("pageStatus","accountEdit");
+                // アカウントidをセット
+                model.addAttribute("id",emu.getAc().getId());
                 // 有効期限が過ぎていたら
                 return ForwardConst.ERR_TOKEN_PAGE;
             }
@@ -224,16 +225,12 @@ public class AccountAction extends ActionBase {
     }
     @RequestMapping("/account/updateEmailComplete")
     public String updateEmailComplete(@AuthenticationPrincipal Account loginAccount) {
-        if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
-            // エラー画面へ
-            return ForwardConst.ERR_UNKNOWN_PAGE;
-        }
         return ForwardConst.ACCOUNT_UPDATE_EMAIL;
     }
 
     // パスワード更新
     @PostMapping("/account/passwordUpdate")
-    public String passwordCheck(@ModelAttribute @Validated(PasswordUpdateData.class) FormAccount fac,BindingResult result ,@RequestParam(name = "protectionToken")String protectionToken,Model model,RedirectAttributes redirectAttributes,@AuthenticationPrincipal Account loginAccount) {
+    public String passwordCheck(@ModelAttribute @Validated(PasswordUpdateData.class) FormAccount fac,BindingResult result ,Model model,RedirectAttributes redirectAttributes,@AuthenticationPrincipal Account loginAccount) {
         if(loginAccount.getAdminFlag() == JpaConst.ROLE_GUEST) {
             // エラー画面へ
             return ForwardConst.ERR_UNKNOWN_PAGE;
@@ -266,8 +263,6 @@ public class AccountAction extends ActionBase {
 
         // セッションからアカウントデータを削除
         session.removeAttribute("account");
-        // sessionからトークン削除
-        session.removeAttribute("protectionToken");
         // アカウント編集画面へ
         return "redirect:/account/edit?id="+saveAc.getId();
     }

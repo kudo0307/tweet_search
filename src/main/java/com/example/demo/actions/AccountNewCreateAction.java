@@ -132,6 +132,8 @@ public class AccountNewCreateAction extends ActionBase {
             // データ取得
             // 有効期限のチェック
             if(anc.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
+                // リンク先切り替え用ステータスをセット
+                model.addAttribute("pageStatus","accountNewCreate");
                 // 有効期限が過ぎていたら
                 return ForwardConst.ERR_TOKEN_PAGE;
             }
@@ -163,6 +165,8 @@ public class AccountNewCreateAction extends ActionBase {
 
         // 有効期限のチェック
         if(anc.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
+            // リンク先切り替え用ステータスをセット
+            model.addAttribute("pageStatus","accountNewCreate");
             // 有効期限が過ぎていたら
             return ForwardConst.ERR_TOKEN_PAGE;
         }
