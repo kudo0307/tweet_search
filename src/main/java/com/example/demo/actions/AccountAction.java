@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -260,8 +258,7 @@ public class AccountAction extends ActionBase {
         Account saveAc = acService.passwordUpdate(ac, fac.getPassword());
 
         // sessionのログイン情報を更新する
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication((Authentication) saveAc);
+        acService.addAuth(saveAc);
 
         // 更新完了メッセージ
         redirectAttributes.addFlashAttribute("flush",MessageConst.PASSWORD_UPDATE);
