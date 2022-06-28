@@ -28,12 +28,11 @@ header h1 a{
 }
 
 header .gnav{
-    width: 100%;
+    width: 60%;
 }
 header .gnav .menu {
     display: flex; /* 中の要素を横並びにする */
     float: right;
-    margin-right:23%;
 }
 
 header .gnav .menu li {
@@ -41,11 +40,11 @@ header .gnav .menu li {
 }
 
 header .gnav .menu li + li {
-    margin-left: 40px; /* メニューそれぞれに間隔をあけるため */
 }
 
 header .gnav .menu li .menu_text{
     line-height: 50px;
+    height: 100%;
 }
 
 main {
@@ -82,4 +81,55 @@ header .gnav .menu .account_icon::after {
     bottom: -0.4em;
     width: 0.8em;
     height: 0.8em;
+}
+
+
+.menu_nav {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+}
+.menu_nav li {
+  position: relative;
+  list-style: none;
+}
+.menu_nav li a {
+  display: block;
+  width: 150px;
+  height: 40px;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  transition: 0.5s;
+  text-decoration: none;
+  box-sizing: border-box;
+  margin-right: 30px;
+  line-height: 2.8;
+
+}
+.menu_nav > li:hover > a {/*layer-1*/
+  color: orange;
+  background: #afc6e2;
+}
+.menu_nav > li li:hover > a {/*layer-2*/
+  color: olive;
+  background: #afc6e2;
+}
+.menu_nav li ul {
+    top:55px;
+    left: -40px;
+    position: absolute;
+}
+.menu_nav li ul li {
+  overflow: hidden;
+  height: 0;
+  transition: 0.2s;
+}
+.menu_nav li ul li a {
+  border-top: 1px solid #eee;
+  background: #9fb7d4;
+}
+.menu_nav li:hover > ul > li {
+  overflow: visible;
+  height: 40px;
 }
