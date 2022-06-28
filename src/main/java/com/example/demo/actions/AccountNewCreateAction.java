@@ -104,10 +104,13 @@ public class AccountNewCreateAction extends ActionBase {
                 MessageConst.ACCOUNT_NEW_CREATE_MAIL_SUBJECT, // 件名
                 getMailBodyText(text,textReplaceStrArr)); // 本文
 
-
-
-
         // メール送信完了画面遷移
+        return "redirect:/accountNewCreate/sendMail";
+    }
+
+    @RequestMapping("/accountNewCreate/sendMail")
+    public String sendMail() {
+
         return ForwardConst.ACCOUNT_NEW_CREATE_SEND_MAIL;
     }
 
