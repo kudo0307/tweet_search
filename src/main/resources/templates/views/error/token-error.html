@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'アカウント新規作成', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account_new_create.css}"/>
 <body>
-    <p>有効期限が切れています。</p>
-    <a href="/accountNewCreate"  th:text="アカウント新規作成ページへ" th:href="@{/accountNewCreate}"></a>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="message_box">
+        <div class="message_area">
+            <div class="message_title">
+                <h2>有効期限が切れています</h2>
+            </div>
+            <div class="message">
+                <p>もう一度メールアドレスを入力してください。</p>
+            </div>
+        </div>
+        <div class="return_link">
+            <p><a href="/accountNewCreate"  th:text="アカウント新規作成ページへ" th:href="@{/accountNewCreate}"></a></p>
+        </div>
+    </div>
 </body>
 </html>
