@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'パスワード再発行', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account_new_create.css}"/>
 <body>
-    <div th:object="${formAccount}">
-        <p th:errors="*{password}"></p>
-        <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
-        <form action="#" th:action = "@{/passwordNewCreate/create}" method="post">
-            <span>パスワード</span>
-            <p><input type="password" th:field="*{password}"></p>
-            <span>パスワード確認</span>
-            <p><input type="password" th:field="*{passwordConfirm}"></p>
-            <input type="submit" value="登録" >
-        </form>
-    </div>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="form_box">
+       <div class="form_area">
+           <div class="form_block" th:object="${formAccount}">
+               <form action="#" th:action = "@{/passwordNewCreate/checkPassword}" method="post">
+                   <p class="error_message" th:errors="*{password}"></p>
+                   <p class="error_message" th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
+                   <div class="form_title">
+                        <h3>パスワード</h3>
+                        <div class="form_input_area">
+                           <label class="ef">
+                               <input type="password" th:field="*{password}" class="form_input">
+                           </label>
+                        </div>
+                    </div>
+                    <div class="form_title">
+                        <h3>パスワード(再入力)</h3>
+                        <div class="form_input_area">
+                            <label class="ef">
+                                <input type="password" th:field="*{passwordConfirm}" class="form_input">
+                            </label>
+                       </div>
+                    </div>
+                    <div class="submit_button_are">
+                       <input type="submit" value="登録" class="submit_button">
+                    </div>
+                </form>
+            </div>
+         </div>
+      </div>
 </body>
 </html>

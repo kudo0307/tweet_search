@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'パスワード再発行', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/password_new_create.css}"/>
 <body>
-
-    <h1>登録が完了しました</h1>
-    <a href="/login"  th:text="ログイン画面へ" th:href="@{/login}"></a>
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="message_box">
+        <div class="message_area">
+            <div class="message_title">
+                <h1>パスワード再発行完了</h1>
+            </div>
+            <div class="message">
+                <p>パスワード再発行しました。<br>ログイン画面からログインしてください。</p>
+            </div>
+        </div>
+        <div class="return_link">
+            <p><a th:text="ログインする" th:href="@{/login}"></a></p>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<head th:replace="views/common :: head_fragment(title = 'パスワード新規作成', scripts = ~{::script}, links = ~{::link})"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/password_new_create.css}"/>
 <body>
-
-    <div th:object="${formPasswordNewCreate}">
-
-        <span th:errors="*{email}"></span>
-        <span th:block th:if="${error != null}" th:text="${error}"></span>
-        <form action="#" th:action="@{/passwordNewCreate/checkEmail}" method="post">
-            <p>アカウント登録した際のメールアドレスを入力してください</p>
-            <p><input type="text" th:field="*{email}" /></p>
-            <input type="submit" value="送信">
+    <div th:replace="views/common :: header_fragment"></div>
+    <div class="form_box"  th:object="${formPasswordNewCreate}">
+        <div class="error_message">
+            <p th:errors="*{email}"></p>
+        </div>
+        <div class="error_message" th:if="${error != null}">
+            <p th:text="${error}"></p>
+        </div>
+        <form th:action="@{/passwordNewCreate/checkEmail}" method="post">
+            <div class="form_title">
+                <h3>アカウント登録時のメールアドレスを入力してください</h3>
+            </div>
+            <div class="form_input_area">
+               <label class="ef">
+                  <input type="text" th:field="*{email}" class="form_input">
+               </label>
+            </div>
+            <div class="submit_button_are">
+               <input type="submit" value="認証メールを送信" class="submit_button">
+            </div>
         </form>
-
-        <a href="/login"  th:text="ログイン画面へ" th:href="@{/login}"></a>
+        <div class="return_link">
+            <p><a th:text="ログインする" th:href="@{/login}"></a></p>
+        </div>
     </div>
 </body>
 </html>
