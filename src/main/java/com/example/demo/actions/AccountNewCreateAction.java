@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.constants.ForwardConst;
 import com.example.demo.constants.JpaConst;
@@ -142,8 +143,8 @@ public class AccountNewCreateAction extends ActionBase {
         return ForwardConst.ACCOUNT_NEW_CREATE_PAGE;
     }
 
-    @PostMapping("/accountNewCreate/create")
-    public String create(@ModelAttribute @Validated(CreateData.class) FormAccount fac ,BindingResult result ,Model model) {
+    @PostMapping("/accountNewCreate/checkPassword")
+    public String create(@ModelAttribute @Validated(CreateData.class) FormAccount fac ,BindingResult result,RedirectAttributes redirectAttributes ,Model model) {
         if(result.hasErrors()) {
 
             return ForwardConst.ACCOUNT_NEW_CREATE_PAGE;
@@ -151,6 +152,11 @@ public class AccountNewCreateAction extends ActionBase {
 
         // sessionからAccountNewCreateのデータ取得
         AccountNewCreate anc = (AccountNewCreate) session.getAttribute("accountNewCreate");
+
+        if(anc == null) {
+            // sessionの値を取得できなければエラー画面
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
 
         // 有効期限のチェック
         if(anc.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
@@ -176,10 +182,14 @@ public class AccountNewCreateAction extends ActionBase {
         saveOtp.setDeletedAt(LocalDateTime.now()); // 削除日
         otpService.otpSave(saveOtp); // 更新
 
-
-
-
         // アカウント登録完了画面
+        return "redirect:/accountNewCreate/complete";
+    }
+
+    @RequestMapping("/accountNewCreate/complete")
+    public String complete() {
+        // sessionの値を削除
+        session.removeAttribute("accountNewCreate");
         return ForwardConst.ACCOUNT_NEW_CREATE_COMPLETE;
     }
 
