@@ -88,9 +88,12 @@ public class PasswordNewCreateAction extends ActionBase {
 
 
         // メール送信完了画面遷移
+        return "redirect:/passwordNewCreate/sendMail";
+    }
+    @RequestMapping("/passwordNewCreate/sendMail")
+    public String sendMail() {
         return ForwardConst.PASSWORD_NEW_CREATE_SEND_MAIL;
     }
-
     @GetMapping("/passwordNewCreate/create")
     public String create(@ModelAttribute @Validated(CreateData.class) OnetimePassword otp ,BindingResult result ,Model model) {
         if(result.hasErrors()) {
@@ -122,7 +125,7 @@ public class PasswordNewCreateAction extends ActionBase {
         return ForwardConst.PASSWORD_NEW_CREATE_PAGE;
     }
 
-    @PostMapping("/passwordNewCreate/create")
+    @PostMapping("/passwordNewCreate/checkPassword")
     public String create(@ModelAttribute @Validated(NewPasswordData.class) FormAccount fac ,BindingResult result ,Model model) {
         if(result.hasErrors()) {
 
@@ -132,6 +135,10 @@ public class PasswordNewCreateAction extends ActionBase {
         // sessionからPasswordNewCreateのデータ取得
         PasswordNewCreate pnc = (PasswordNewCreate) session.getAttribute("passwordNewCreate");
 
+        if(pnc == null) {
+            // sessionの値を取得できなければエラー画面
+            return ForwardConst.ERR_UNKNOWN_PAGE;
+        }
 
         // 有効期限のチェック
         if(pnc.getOtp().getTokenAt().isBefore(LocalDateTime.now())) {
@@ -145,7 +152,14 @@ public class PasswordNewCreateAction extends ActionBase {
         otpService.deleteOnetimePassword(pnc.getOtp());
 
         // パスワード登録完了画面
-        return ForwardConst.ACCOUNT_NEW_CREATE_COMPLETE;
+        return "redirect:/passwordNewCreate/complete";
+    }
+
+    @RequestMapping("/passwordNewCreate/complete")
+    public String complete() {
+        // sessionの値を削除
+        session.removeAttribute("passwordNewCreate");
+        return ForwardConst.PASSWORD_NEW_CREATE_COMPLETE;
     }
 
 
