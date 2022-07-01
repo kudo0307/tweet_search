@@ -19,7 +19,8 @@ public class OnetimePasswordService {
     // @param token トークン
     // @return ワンタイムパスワードデータ
     public OnetimePassword getByToken(String token) {
-        return repository.findByTokenIs(token);
+        LocalDateTime now = LocalDateTime.now();
+        return repository.findByTokenIsAndTokenAtBefore(token,now);
     }
 
     // 既に登録されているワンタイムパスワードを削除する
@@ -35,7 +36,11 @@ public class OnetimePasswordService {
     // @return createOtp 登録したワンタイムパスワードデータ
     public OnetimePassword createOnetimePassword() {
         OnetimePassword createOtp = new OnetimePassword();
+        int count = 0;
         while(true) {
+            if(count>100) {
+                break;
+            }
             String token = ActionBase.randomString(JpaConst.ONETIME_PASS_INT,JpaConst.ONETIME_PASS_STR);
 
             if(getByToken(token) == null) {
@@ -53,6 +58,7 @@ public class OnetimePasswordService {
                 createOtp = otpSave(saveOtp); // 登録
                 break;
             }
+            count++;
         }
 
         return createOtp;
