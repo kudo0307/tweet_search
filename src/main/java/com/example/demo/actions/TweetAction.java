@@ -43,7 +43,8 @@ public class TweetAction {
     @Autowired
     private TweetConverter twConverter;
 
-    @RequestMapping("/tweetSearch")
+
+    @RequestMapping(value = {"/", "/tweetSearch"})
     public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String nextToken,@RequestParam(required = false) Integer searchId,@AuthenticationPrincipal Account loginAccount,Model model) throws IOException, URISyntaxException {
 
         // ツイートデータリスト
