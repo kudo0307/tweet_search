@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -50,6 +51,10 @@ public class AccountAction extends ActionBase {
     private OnetimePasswordService otpService;
     @Autowired
     private HttpSession session;
+
+    // サイトURL取得
+    @Value("${tweet.search.url.path}")
+    private String URL_PATH;
 
     // アカウント一覧
     @RequestMapping("/account")
@@ -150,6 +155,7 @@ public class AccountAction extends ActionBase {
         // メール送信
         // 置換する文字の配列作成
         Map<String,String> textReplaceStrArr = new HashMap<>();
+        textReplaceStrArr.put("urlPath",URL_PATH); // URLのPATHをセット
         textReplaceStrArr.put("token",saveEmu.getOtp().getToken() ); // トークンをセット
 
         // メール本文取得

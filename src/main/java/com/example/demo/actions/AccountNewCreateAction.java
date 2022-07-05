@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,9 @@ public class AccountNewCreateAction extends ActionBase {
     @Autowired
     private OnetimePasswordService otpService;
 
+    // サイトURL取得
+    @Value("${tweet.search.url.path}")
+    private String URL_PATH;
 
     @RequestMapping("/accountNewCreate")
     public String newCreate(@ModelAttribute AccountNewCreate anc, Model model) {
@@ -93,6 +97,7 @@ public class AccountNewCreateAction extends ActionBase {
         // メール送信
         // 置換する文字の配列作成
         Map<String,String> textReplaceStrArr = new HashMap<>();
+        textReplaceStrArr.put("urlPath",URL_PATH); // URLのPATHをセット
         textReplaceStrArr.put("token",createAnc.getOtp().getToken() ); // トークンをセット
 
         // メール本文取得

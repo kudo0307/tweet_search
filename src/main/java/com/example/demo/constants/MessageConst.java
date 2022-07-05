@@ -29,7 +29,6 @@ public interface MessageConst {
     /*
      * メール
      */
-    String MAIL_URL_PATH = "http://localhost:8080";
     // from
     String MAIL_FROM = "tweetsearchinfo@gmail.com";
     // cc
@@ -39,18 +38,18 @@ public interface MessageConst {
     String ACCOUNT_NEW_CREATE_MAIL_SUBJECT = "アカウント新規作成手続き"; // 件名
     String ACCOUNT_NEW_CREATE_MAIL_TEXT =
             "下記にて本登録のお手続きをお願い致します。\n\n"
-            + "URL : " + MAIL_URL_PATH + "/accountNewCreate/create?token=${token}"; // 本文
+            + "URL : ${urlPath}/accountNewCreate/create?token=${token}"; // 本文
 
     // パスワード新規作成
     String PASSWORD_NEW_CREATE_MAIL_SUBJECT = "パスワード再発行手続き"; // 件名
     String PASSWORD_NEW_CREATE_MAIL_TEXT =
             "下記にてパスワードの再発行をお願い致します。\n\n"
-            + "URL : " + MAIL_URL_PATH + "/passwordNewCreate/create?token=${token}"; // 本文
+            + "URL : ${urlPath}/passwordNewCreate/create?token=${token}"; // 本文
 
     // メールアドレス新規作成
     String EMAIL_UPDATE_SUBJECT = "メールアドレス新規作成手続き"; // 件名
     String EMAIL_UPDATE_MAIL_TEXT = "下記URLにて更新を確定してください。\n\n"
-            + "URL : " + MAIL_URL_PATH + "/account/emailUpdate?token=${token}"; // 本文
+            + "URL : ${urlPath}/account/emailUpdate?token=${token}"; // 本文
 
 
     /*
