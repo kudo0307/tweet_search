@@ -17,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +44,13 @@ public class TweetAction {
     @Autowired
     private TweetConverter twConverter;
 
+    // twitterAPI接続key
+    @Value("${oauth.consumer.key}")
+    private String OAUTH_CONSUMER_KEY;
+    @Value("${oauth.consumer.secret}")
+    private String OAUTH_CONSUMER_SECRET;
+    @Value("${bearer.token}")
+    private String BEARER_TOKEN;
 
     @RequestMapping(value = {"/", "/tweetSearch"})
     public String search(@RequestParam(defaultValue = "") String query,@RequestParam(required = false) String nextToken,@RequestParam(required = false) Integer searchId,@AuthenticationPrincipal Account loginAccount,Model model) throws IOException, URISyntaxException {
@@ -58,7 +66,7 @@ public class TweetAction {
             */
             String searchTarget = query + "& -is:retweet has:videos";
             // ツイートデータ取得
-            String response = search(searchTarget, nextToken ,CommonConst.BEARER_TOKEN);
+            String response = search(searchTarget, nextToken ,BEARER_TOKEN);
 
             // mapper
             ObjectMapper mapper = new ObjectMapper();
